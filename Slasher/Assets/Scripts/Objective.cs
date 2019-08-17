@@ -8,7 +8,12 @@ public class Objective : MonoBehaviour
 
     private void OnDisable()
     {
-        if (destructionEffectName != "")
-            ObjectPooler.instance.SpawnFromPool(destructionEffectName, transform.position, Quaternion.identity);
+        if (Time.time > 1)
+        {
+            if (destructionEffectName != "")
+                ObjectPooler.instance.SpawnFromPool(destructionEffectName, transform.position, Quaternion.identity);
+
+            GameManager.instace.currentSpawnedObj--;
+        }
     }
 }

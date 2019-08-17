@@ -26,7 +26,6 @@ public class ObjectPooler : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        StartLevel();
     }
     #endregion
 
@@ -62,6 +61,9 @@ public class ObjectPooler : MonoBehaviour
         }
 
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+
+        if (!objectToSpawn)
+            return null;
 
         objectToSpawn.SetActive(true);
 

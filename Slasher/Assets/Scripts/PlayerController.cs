@@ -98,17 +98,19 @@ public class PlayerController : MonoBehaviour
         swordTrail.Stop();
         if (slashes[slashNum - 1].isPlaying)
             slashes[slashNum - 1].Clear();
-        slashes[slashNum -1].Play();
+        slashes[slashNum - 1].Play();
 
         if (targetObjective)
         {
-            if (!Physics.Raycast(targetObjective.position, targetObjective.forward, 4))
+            if (!Physics.Raycast(targetObjective.position, targetObjective.forward, 5f))
                 anim.SetBool("Slash", false);
+
+            StartCoroutine(DestroyObjective(targetObjective.gameObject));
         }
         else
             anim.SetBool("Slash", false);
 
-        StartCoroutine(DestroyObjective(targetObjective.gameObject));
+        ComboCounter.instance.AddSlashToCombo();
 
         StartCoroutine(StartSwordTrail());
     }
@@ -125,6 +127,14 @@ public class PlayerController : MonoBehaviour
         targetObjective = null;
     }
 
+    public void Footstep(int right)
+    {
+        return;
+        Ray ray = new Ray(anim.GetBoneTransform(right == 1 ? HumanBodyBones.RightFoot : HumanBodyBones.LeftFoot).position, -Vector3.up);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+            ObjectPooler.instance.SpawnFromPool("LightningFootstep", hit.point + Vector3.up * .2f, Quaternion.identity);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
