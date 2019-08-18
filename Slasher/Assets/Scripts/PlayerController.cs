@@ -138,9 +138,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Obj")
+        switch (other.tag)
         {
-            Debug.Log("Lost");
+            case "Obj":
+                Debug.Log("Lost");
+                break;
+            case "Shield":
+                other.gameObject.SetActive(false);
+                break;
         }
     }
 }

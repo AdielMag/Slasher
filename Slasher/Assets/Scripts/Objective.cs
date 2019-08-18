@@ -12,8 +12,6 @@ public class Objective : MonoBehaviour
         {
             if (destructionEffectName != "")
                 ObjectPooler.instance.SpawnFromPool(destructionEffectName, transform.position, Quaternion.identity);
-
-            GameManager.instace.currentSpawnedObj--;
         }
     }
 }
