@@ -34,13 +34,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR
-        movementHorizntal = Input.mousePosition.x / screenWidth;
-        rotationHorizontal = Input.GetAxis("Mouse X");
+        //movementHorizntal = Input.mousePosition.x / screenWidth;
+        //rotationHorizontal = Input.GetAxis("Mouse X");
 #endif
         if (Input.touchCount > 0)
         {
             movementHorizntal = Input.GetTouch(0).position.x / screenWidth;
-            rotationHorizontal = Input.GetTouch(0).deltaPosition.x / 30;
+            rotationHorizontal = Input.GetTouch(0).deltaPosition.x / 90;
         }
         else
         {
