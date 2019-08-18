@@ -13,11 +13,9 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    SpawnInformation[] spawnInfo = new SpawnInformation[25];
+    SpawnInformation[] spawnInfo = new SpawnInformation[100];
 
     int maxSpawnedObj, spawnedObjectCounter = 0;
-
-    float excessRunTime;
 
     ObjectPooler objPooler;
 
@@ -34,19 +32,13 @@ public class GameManager : MonoBehaviour
     {
         if (spawnedObjectCounter < maxSpawnedObj && finishedThinking)
             SpawnObject(spawnInfo[spawnedObjectCounter]);
-        else
-        {
-
-        }
-
-
-        difficulty = 1 + Mathf.RoundToInt (0.07f * (Time.time - excessRunTime) * 2f);
     }
+
 
     bool finishedThinking;
     public int difficulty;
-    // Its outside the method because it needs to keep the record of all the past spawns.
-    Vector3 spawnPosition = new Vector3(0, 1.25f, 50); 
+    float difficultyB = 1.02f, difficultyX;
+    Vector3 spawnPosition = new Vector3(0, 1.25f, 50); // Its outside the method because it needs to keep the record of all the past spawns.
     void SpawnBrain()
     {
         finishedThinking = false;
@@ -54,10 +46,10 @@ public class GameManager : MonoBehaviour
         // Calculate Difficulty by the time - excess time.
 
 
-        // Loop for each one of the objective that going to spawn for the next (maxSpawnObj).
-        // (You will be called again after that amount will be spawned)
-        
-        SpawnInformation.ObjectType type = SpawnInformation.ObjectType.Regular; // Will need to be changed with type logic...
+        // Loop for each one of the objective that going to spawned (until you reach maxSpawnedObj...).
+        // (You will be called again after that amount will be spawned) maybe? probably...
+
+        SpawnInformation.ObjectType type;
         for (int i =0; i < maxSpawnedObj; i++)
         {
             // Will need logic to check for type...
@@ -91,9 +83,7 @@ public class GameManager : MonoBehaviour
                     {
                         spawnPosition += Vector3.forward * 4;
                     }
-                    spawnInfo[i + tempI] = new SpawnInformation();
-                    spawnInfo[i + tempI].objectType = type;
-                    spawnInfo[i + tempI].position = spawnPosition;
+                    AddInfoToSpawnArray(type, i + tempI);
                 }
 
                 int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0 + 3 - difficulty / 5, 12 - difficulty / 5) * 4);
@@ -109,9 +99,7 @@ public class GameManager : MonoBehaviour
             {
                 spawnPosition = new Vector3(Random.Range(1, 4) * 2 - 5, 1.25f, spawnPosition.z);
 
-                spawnInfo[i] = new SpawnInformation();
-                spawnInfo[i].objectType = type;
-                spawnInfo[i].position = spawnPosition;
+                AddInfoToSpawnArray(type, i);
 
                 int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0 + 3 - difficulty / 5, 12 - difficulty / 5) * 4);
                 verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
@@ -121,6 +109,15 @@ public class GameManager : MonoBehaviour
         }
 
         finishedThinking = true;
+    }
+
+    private void AddInfoToSpawnArray(SpawnInformation.ObjectType type, int i)
+    {
+        spawnInfo[i] = new SpawnInformation();
+        spawnInfo[i].objectType = type;
+        spawnInfo[i].position = spawnPosition;
+
+        difficulty = Mathf.RoundToInt(Mathf.Pow(difficultyB, difficultyX++));
     }
 
     void SpawnObject(SpawnInformation info) 

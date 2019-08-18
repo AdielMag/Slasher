@@ -58,7 +58,7 @@ public class ComboCounter : MonoBehaviour
 
     void ResetCombo()
     {
-        PointsCounter.instance.AddPoints(comboCounter * 5);
+        PointsCounter.instance.AddPoints(comboCounter * 2);
         comboCounter = 0;
     }
 
@@ -67,7 +67,7 @@ public class ComboCounter : MonoBehaviour
         anim.SetBool("InCombo", true);
         comboCounter++;
         lastTimeSlashed = Time.time + timeToAddForSlash;
-        text.text = "+" + (comboCounter * 5).ToString();
+        text.text = "+" + (comboCounter * 2).ToString();
 
         rect.localScale *= 1.24f;
         rect.localRotation *= Quaternion.Euler(0, Random.Range(-5, 5), Random.Range(-5, 5));
