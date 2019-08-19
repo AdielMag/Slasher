@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     SpawnInformation[] spawnInfo = new SpawnInformation[100];
 
-    int maxSpawnedObj, spawnedObjectCounter = 0;
+    public int maxSpawnedObj, spawnedObjectCounter = 0;
 
     ObjectPooler objPooler;
 
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         if (spawnedObjectCounter < maxSpawnedObj && finishedThinking)
-            SpawnObject(spawnInfo[spawnedObjectCounter]);
+           SpawnObject(spawnInfo[spawnedObjectCounter]);
     }
 
 
