@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     int screenWidth;
 
     public ParticleSystem swordTrail;
-    public ParticleSystem[] slashes;
+    public GameObject[] slashes;
 
     Animator anim;
 
@@ -96,9 +96,8 @@ public class PlayerController : MonoBehaviour
     public void Slash(int slashNum)
     {
         swordTrail.Stop();
-        if (slashes[slashNum - 1].isPlaying)
-            slashes[slashNum - 1].Clear();
-        slashes[slashNum - 1].Play();
+
+        slashes[slashNum - 1].SetActive(true);
 
         if (targetObjective)
         {
