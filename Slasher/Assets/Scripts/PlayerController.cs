@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EzySlice;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,6 +30,11 @@ public class PlayerController : MonoBehaviour
         screenWidth = Screen.width;
 
         anim = GetComponent<Animator>();
+
+        for(int i=0; i < slashes.Length; i++)
+        {
+            slashPlane[i] = slashes[i].transform.GetChild(0);
+        }
     }
 
     private void Update()
@@ -99,12 +105,13 @@ public class PlayerController : MonoBehaviour
 
         slashes[slashNum - 1].SetActive(true);
 
+
         if (targetObjective)
         {
             if (!Physics.Raycast(targetObjective.position, targetObjective.forward, 5f))
                 anim.SetBool("Slash", false);
 
-            StartCoroutine(DestroyObjective(targetObjective.gameObject));
+            StartCoroutine(DestroyObjective(slashNum,targetObjective.gameObject));
         }
         else
             anim.SetBool("Slash", false);
@@ -114,15 +121,40 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(StartSwordTrail());
     }
 
+    public Material dissolveMat;
+    Transform[] slashPlane = new Transform[4];
+    void Slice(int sliceNum,GameObject objectToSlice )
+    {
+        SlicedHull hull = objectToSlice.Slice(slashPlane[sliceNum - 1].position, slashPlane[sliceNum - 1].up);
+
+        if (hull != null)
+        {
+            Rigidbody firstHalf = hull.CreateLowerHull(objectToSlice).AddComponent<Rigidbody>();
+            Rigidbody secondHalf = hull.CreateUpperHull(objectToSlice).AddComponent<Rigidbody>();
+
+            //firstHalf.GetComponent<Renderer>().materials = dissolveMat;
+            //secondHalf.GetComponent<Renderer>().materials = dissolveMat;
+
+            firstHalf.useGravity = false;
+            secondHalf.useGravity = false;
+            Vector3 firstHalfCenter = firstHalf.GetComponent<Renderer>().bounds.center;
+            Vector3 secondHalfCenter = secondHalf.GetComponent<Renderer>().bounds.center;
+            firstHalf.AddForce((firstHalfCenter - secondHalfCenter) * 10, ForceMode.Impulse);
+            secondHalf.AddForce((secondHalfCenter - firstHalfCenter) * 10, ForceMode.Impulse);
+
+            objectToSlice.SetActive(false);
+        }
+    }
+
     IEnumerator StartSwordTrail()
     {
         yield return new WaitForSeconds(.25f);
         swordTrail.Play();
     }
-    IEnumerator DestroyObjective(GameObject obj)
+    IEnumerator DestroyObjective(int slashNum,GameObject obj)
     {
         yield return new WaitForSeconds(.05f);
-        obj.SetActive(false);
+        Slice(slashNum, obj);
         targetObjective = null;
     }
 
