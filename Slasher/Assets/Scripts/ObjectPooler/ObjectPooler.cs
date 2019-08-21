@@ -25,9 +25,9 @@ public class ObjectPooler : MonoBehaviour
         }
         else if (instance != this)
             Destroy(gameObject);
-
     }
     #endregion
+
 
     public void StartLevel()
     {
@@ -50,6 +50,7 @@ public class ObjectPooler : MonoBehaviour
             if (poolParent.transform.childCount == 0)
                 Destroy(poolParent);
         }
+
     }
 
     public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
