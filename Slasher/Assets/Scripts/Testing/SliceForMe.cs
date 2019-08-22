@@ -5,16 +5,16 @@ using EzySlice;
 
 public class SliceForMe : MonoBehaviour
 {
-
-    public GameObject objectToSlice; // non-null
     
+    public GameObject objectToSlice; // non-null
+
     public Material[] dissolveMat; // non-null
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Y))
         {
-           // Slice(transform.position, transform.up, crossSectionMaterial);
+            // Slice(transform.position, transform.up, crossSectionMaterial);
             SlicedHull hull = Slice(transform.position, transform.up);
             if(hull != null)
             {
@@ -23,6 +23,9 @@ public class SliceForMe : MonoBehaviour
 
                 firstHalf.GetComponent<Renderer>().materials = dissolveMat;
                 secondHalf.GetComponent<Renderer>().materials = dissolveMat;
+
+                firstHalf.gameObject.AddComponent<DissolveEffect>();
+                secondHalf.gameObject.AddComponent<DissolveEffect>();
 
                 firstHalf.useGravity = false;
                 secondHalf.useGravity = false;

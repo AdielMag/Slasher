@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
             if (!Physics.Raycast(targetObjective.position, targetObjective.forward, 5f))
                 anim.SetBool("Slash", false);
 
+            targetObjective.tag = "Untagged";
             StartCoroutine(DestroyObjective(slashNum,targetObjective.gameObject));
         }
         else
@@ -121,7 +122,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(StartSwordTrail());
     }
 
-    public Material dissolveMat;
+    public Material[] dissolveMats;
     Transform[] slashPlane = new Transform[4];
     void Slice(int sliceNum,GameObject objectToSlice )
     {
@@ -129,18 +130,28 @@ public class PlayerController : MonoBehaviour
 
         if (hull != null)
         {
-            Rigidbody firstHalf = hull.CreateLowerHull(objectToSlice).AddComponent<Rigidbody>();
-            Rigidbody secondHalf = hull.CreateUpperHull(objectToSlice).AddComponent<Rigidbody>();
+            GameObject firstHalf = hull.CreateLowerHull(objectToSlice);
+            GameObject secondHalf = hull.CreateUpperHull(objectToSlice);
 
-            //firstHalf.GetComponent<Renderer>().materials = dissolveMat;
-            //secondHalf.GetComponent<Renderer>().materials = dissolveMat;
+            #region Rigidbody 
+            Rigidbody firstHalfRb = firstHalf.AddComponent<Rigidbody>();
+            Rigidbody secondHalfRb = secondHalf.AddComponent<Rigidbody>();
 
-            firstHalf.useGravity = false;
-            secondHalf.useGravity = false;
+            firstHalfRb.useGravity = false;
+            secondHalfRb.useGravity = false;
+
             Vector3 firstHalfCenter = firstHalf.GetComponent<Renderer>().bounds.center;
             Vector3 secondHalfCenter = secondHalf.GetComponent<Renderer>().bounds.center;
-            firstHalf.AddForce((firstHalfCenter - secondHalfCenter) * 10, ForceMode.Impulse);
-            secondHalf.AddForce((secondHalfCenter - firstHalfCenter) * 10, ForceMode.Impulse);
+
+            firstHalfRb.AddForce((firstHalfCenter - secondHalfCenter) * 10, ForceMode.Impulse);
+            secondHalfRb.AddForce((secondHalfCenter - firstHalfCenter) * 10, ForceMode.Impulse);
+            #endregion
+
+            firstHalf.GetComponent<Renderer>().materials = dissolveMats;
+            secondHalf.GetComponent<Renderer>().materials = dissolveMats;
+
+            firstHalf.AddComponent<DissolveEffect>();
+            secondHalf.AddComponent<DissolveEffect>();
 
             objectToSlice.SetActive(false);
         }
