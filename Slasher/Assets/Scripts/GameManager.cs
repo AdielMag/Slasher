@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     {
         instace = this;
 
+        Application.targetFrameRate = 120;
     }
     #endregion
 
