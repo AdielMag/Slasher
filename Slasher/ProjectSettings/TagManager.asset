@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obj
   - Shield
+  - Undestructable
   layers:
   - Default
   - TransparentFX

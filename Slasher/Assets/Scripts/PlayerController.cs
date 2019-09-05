@@ -6,7 +6,7 @@ using EzySlice;
 public class PlayerController : MonoBehaviour
 {
     #region Singelton
-    PlayerController instance;
+    public static PlayerController instance;
     private void Awake()
     {
         instance = this;
@@ -23,13 +23,16 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem swordTrail;
     public GameObject[] slashes;
 
-    Animator anim;
+    [HideInInspector]
+    public Animator anim;
+    GameManager gMan;
 
     void Start()
     {
         screenWidth = Screen.width;
 
         anim = GetComponent<Animator>();
+        gMan = GameManager.instace;
 
         for(int i=0; i < slashes.Length; i++)
         {
@@ -59,6 +62,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!gMan.playing)
+            return;
+
         MovePlayer();
         RotatePlayer();
         ObjectiveIdentification();
@@ -183,11 +189,24 @@ public class PlayerController : MonoBehaviour
         switch (other.tag)
         {
             case "Obj":
-                Debug.Log("Lost");
+                LostGame();
+                break;
+            case "Undestructable":
+                LostGame();
                 break;
             case "Shield":
                 other.gameObject.SetActive(false);
                 break;
         }
+    }
+
+    void LostGame()
+    { 
+        gMan.LostGame();
+        /* 
+         * player stops moving and responding to touch
+         * Ui menu opens
+         * Points (coins?) are saved.
+         */
     }
 }

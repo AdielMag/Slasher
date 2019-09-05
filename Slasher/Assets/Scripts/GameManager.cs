@@ -14,9 +14,13 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    SpawnInformation[] spawnInfo = new SpawnInformation[100];
+    public bool playing;
 
-    public int maxSpawnedObj, spawnedObjectCounter = 0;
+    SpawnInformation[] spawnInfo = new SpawnInformation[500];
+
+    public int maxSpawnedObj, spawnCounter = 0;
+    [HideInInspector]
+    public int maxCurrnetObj = 30, currentSpawnedObj;
 
     ObjectPooler objPooler;
 
@@ -31,15 +35,37 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (spawnedObjectCounter < maxSpawnedObj && finishedThinking)
-           SpawnObject(spawnInfo[spawnedObjectCounter]);
+        if (!playing)
+            return;
+
+        if (!finishedThinking)
+            return;
+
+        if (spawnCounter < maxSpawnedObj && currentSpawnedObj < maxCurrnetObj)
+           SpawnObject(spawnInfo[spawnCounter]);
     }
 
+    public void StartPlaying()
+    {
+        playing = true;
+        PlayerController.instance.anim.SetFloat("Forward", 1);
+    }
+
+
+    public Animator lostMenuACon;
+    public void LostGame()
+    {
+        playing = false;
+        lostMenuACon.SetTrigger("Open");
+    }
+
+    // Spawn stuff.
 
     bool finishedThinking;
     public int difficulty;
     float initialValue = 1.02f, initialValuePower;
     float shieldSpawnMinPrecentage = 100;
+    float undestructableMinPrecentage = 1;
     Vector3 spawnPosition = new Vector3(0, 1.25f, 50); // Its outside the method because it needs to keep the record of all the past spawns.
     void SpawnBrain()
     {
@@ -51,17 +77,28 @@ public class GameManager : MonoBehaviour
         // Loop for each one of the objective that going to spawned (until you reach maxSpawnedObj...).
         // (You will be called again after that amount will be spawned) maybe? probably...
 
-        SpawnInformation.ObjectType type;
         for (int i =0; i < maxSpawnedObj; i++)
         {
             // Will need logic to check for type...
             //Logic for Type.
-            type = Random.Range(0f, 101) > shieldSpawnMinPrecentage ? SpawnInformation.ObjectType.Shield : SpawnInformation.ObjectType.Regular;
-            #region Regular
-            if (type == SpawnInformation.ObjectType.Regular)
+            #region Shield
+            if (Random.Range(0f, 101) > shieldSpawnMinPrecentage)
             {
-                //int maxSegementLength = Random.Range(1, 1+ Mathf.RoundToInt(difficulty / 2f)); // Used by difficulty.
-                //maxSegementLength = Mathf.Clamp(maxSegementLength, 1, 7);
+                spawnPosition = new Vector3(Random.Range(1, 5) * 2 - 5, 1.25f, spawnPosition.z);
+
+                AddInfoToSpawnArray(SpawnInformation.ObjectType.Shield, i);
+
+                int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0, 2) * 4);
+                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
+                spawnPosition += Vector3.forward * verticalDiff;
+
+                shieldSpawnMinPrecentage = 100;
+            }
+            #endregion
+
+            #region Regular
+            else
+            {
                 int segemtnLength = Random.Range(1, 7);
                 if (i + segemtnLength > maxSpawnedObj - 1)
                     segemtnLength = maxSpawnedObj - i;
@@ -85,6 +122,21 @@ public class GameManager : MonoBehaviour
                     {
                         spawnPosition += Vector3.forward * 4;
                     }
+
+                    // Define Type:
+                    SpawnInformation.ObjectType type;
+
+                    if (Random.Range(0f, difficulty * undestructableMinPrecentage) > 4 + difficulty)
+                    {
+                        type = SpawnInformation.ObjectType.Undestructable;
+                        undestructableMinPrecentage *= 0.94f;
+                    }
+                    else
+                    {
+                        type = SpawnInformation.ObjectType.Regular;
+                        undestructableMinPrecentage *= 1.01f;
+                    }
+
                     AddInfoToSpawnArray(type, i + tempI);
                 }
 
@@ -96,20 +148,7 @@ public class GameManager : MonoBehaviour
 
                 shieldSpawnMinPrecentage *= .999f;
             }
-            #endregion
-
-            #region Shield
-            else if (type == SpawnInformation.ObjectType.Shield)
-            {
-                spawnPosition = new Vector3(Random.Range(1, 5) * 2 - 5, 1.25f, spawnPosition.z);
-
-                AddInfoToSpawnArray(type, i);
-
-                int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0, 2) * 4);
-                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
-                spawnPosition += Vector3.forward * verticalDiff;
-            }
-            #endregion
+            #endregion 
         }
 
         finishedThinking = true;
@@ -131,17 +170,21 @@ public class GameManager : MonoBehaviour
             case SpawnInformation.ObjectType.Regular:
                 objPooler.SpawnFromPool("Regular", info.position, Quaternion.identity);
                 break;
+            case SpawnInformation.ObjectType.Undestructable:
+                objPooler.SpawnFromPool("Undestructable", info.position, Quaternion.identity);
+                break;
             case SpawnInformation.ObjectType.Shield:
                 objPooler.SpawnFromPool("Shield", info.position, Quaternion.identity);
                 break;
         }
-        spawnedObjectCounter++;
+        currentSpawnedObj++;
+        spawnCounter++;
     }
 }
 
 class SpawnInformation
 {
     public Vector3 position;
-    public enum ObjectType { Regular,Shield }
+    public enum ObjectType { Regular, Shield, Undestructable }
     public ObjectType objectType;
 }

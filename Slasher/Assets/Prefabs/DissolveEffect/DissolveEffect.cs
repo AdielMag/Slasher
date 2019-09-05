@@ -5,7 +5,7 @@ using UnityEngine;
 public class DissolveEffect : MonoBehaviour
 {
     // public Color effectColor = Color.cyan;
-    public float effectSpeed = 1;
+    public float effectSpeed = 1.7f;
 
     float dissolveAmount = .2f;
 

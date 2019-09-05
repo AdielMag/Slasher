@@ -9,6 +9,7 @@ public class PointsCounter : MonoBehaviour
     public int points;
 
     Text text;
+    GameManager gMan;
 
     #region Singelton
     static public PointsCounter instance;
@@ -21,12 +22,16 @@ public class PointsCounter : MonoBehaviour
     private void Start()
     {
         text = GetComponent<Text>();
+        gMan = GameManager.instace;
     }
 
     private void FixedUpdate()
     {
-        tempPoints += .01f;
-        points = Mathf.RoundToInt(tempPoints);
+        if (gMan.playing)
+        {
+            tempPoints += .01f;
+            points = Mathf.RoundToInt(tempPoints);
+        }
 
         text.text = points.ToString();
     }
@@ -34,5 +39,10 @@ public class PointsCounter : MonoBehaviour
     public void AddPoints(int amount)
     {
         tempPoints += amount;
+    }
+
+    public void Reset()
+    {
+        tempPoints = points = 0;
     }
 }
