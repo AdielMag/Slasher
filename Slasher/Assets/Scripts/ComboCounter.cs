@@ -47,12 +47,11 @@ public class ComboCounter : MonoBehaviour
             anim.SetBool("InCombo", false);
             ResetCombo();
         }
-        else
-        {
-            rect.rotation = Quaternion.Lerp(rect.rotation, origRot, Time.deltaTime * lerpMultiplier);
-            rect.localScale = Vector3.Lerp(rect.localScale, origScale, Time.deltaTime * lerpMultiplier);
-            shadow.effectColor = Color.Lerp(shadow.effectColor, origCol, Time.deltaTime * (lerpMultiplier /2));
-        }
+
+        rect.rotation = Quaternion.Lerp(rect.rotation, origRot, Time.deltaTime * lerpMultiplier);
+        rect.localScale = Vector3.Lerp(rect.localScale, origScale, Time.deltaTime * lerpMultiplier);
+        shadow.effectColor = Color.Lerp(shadow.effectColor, origCol, Time.deltaTime * (lerpMultiplier / 2));
+
     }
 
 
@@ -60,6 +59,15 @@ public class ComboCounter : MonoBehaviour
     {
         PointsCounter.instance.AddPoints(comboCounter * 2);
         comboCounter = 0;
+    }
+
+    public void LostCombo()
+    {
+        comboCounter = 0;
+        anim.SetTrigger("Lost Combo");
+
+        rect.localScale *= 2f;
+        shadow.effectColor = new Color(shadow.effectColor.r + 3, shadow.effectColor.g - 1, shadow.effectColor.b - 1);
     }
 
     public void AddSlashToCombo()

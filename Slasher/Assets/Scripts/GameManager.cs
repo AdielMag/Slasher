@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
     {
         playing = true;
         PlayerController.instance.anim.SetFloat("Forward", 1);
+
+        PointsCounter.instance.Reset();
+
+        PlayerController.instance.ResetPlayer();
     }
 
 
@@ -57,6 +61,8 @@ public class GameManager : MonoBehaviour
     {
         playing = false;
         lostMenuACon.SetTrigger("Open");
+
+        ComboCounter.instance.LostCombo();
     }
 
     // Spawn stuff.

@@ -200,6 +200,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ResetPlayer()
+    {
+        transform.position = Vector3.zero;
+    }
+
     void LostGame()
     { 
         gMan.LostGame();

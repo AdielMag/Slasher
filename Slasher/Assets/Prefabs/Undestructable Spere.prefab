@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1545401355398873306}
   - component: {fileID: 5388268869700962760}
   - component: {fileID: 110302484808331305}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Undestructable Spere
   m_TagString: Undestructable
   m_Icon: {fileID: 0}
