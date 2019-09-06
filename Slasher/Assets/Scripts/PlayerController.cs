@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
         if (targetObjective)
         {
-            if (!Physics.Raycast(targetObjective.position, targetObjective.forward, 5f))
+            if (!Physics.Raycast(targetObjective.position, targetObjective.forward,out RaycastHit hit, 5f) || hit.transform.tag == "Undestructable")
                 anim.SetBool("Slash", false);
 
             targetObjective.tag = "Untagged";
@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator DestroyObjective(int slashNum,GameObject obj)
     {
-        yield return new WaitForSeconds(.05f);
+        yield return new WaitForSeconds(.08f);
         Slice(slashNum, obj);
         targetObjective = null;
     }

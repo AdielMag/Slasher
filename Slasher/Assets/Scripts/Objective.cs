@@ -24,6 +24,8 @@ public class Objective : MonoBehaviour
                 gMan.currentSpawnedObj--;
             else
                 GameManager.instace.currentSpawnedObj--;
+
+            tag = "Obj";
         }
     }
 }

@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
                     // Define Type:
                     SpawnInformation.ObjectType type;
 
-                    if (Random.Range(0f, difficulty * undestructableMinPrecentage) > 4 + difficulty)
+                    if (Random.Range(0f, difficulty * undestructableMinPrecentage) > 2 + difficulty)
                     {
                         type = SpawnInformation.ObjectType.Undestructable;
                         undestructableMinPrecentage *= 0.94f;
