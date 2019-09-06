@@ -23,11 +23,14 @@ public class GameManager : MonoBehaviour
     public int maxCurrnetObj = 30, currentSpawnedObj;
 
     ObjectPooler objPooler;
+    LoadingScreen loadScr;
 
     private void Start()
     {
         objPooler = ObjectPooler.instance;
         objPooler.StartLevel();
+
+        loadScr = LoadingScreen.instance;
 
         maxSpawnedObj = spawnInfo.Length;
         SpawnBrain();
@@ -45,8 +48,28 @@ public class GameManager : MonoBehaviour
            SpawnObject(spawnInfo[spawnCounter]);
     }
 
-    public void StartPlaying()
+    public void StartPlayingCoroutine()
     {
+        StartCoroutine(StartPlaying());
+    }
+
+    IEnumerator StartPlaying()
+    {
+        loadScr.Enter();
+
+        yield return new WaitForSeconds (.3f);
+
+        loadScr.Done();
+
+        // Disable all objects.
+        Objective[] objs = FindObjectsOfType<Objective>();
+        foreach (Objective obj in objs)
+        {
+            obj.gameObject.SetActive(false);
+        }
+
+        spawnCounter = 0;
+
         playing = true;
         PlayerController.instance.anim.SetFloat("Forward", 1);
 
@@ -55,7 +78,6 @@ public class GameManager : MonoBehaviour
         PlayerController.instance.ResetPlayer();
     }
 
-
     public Animator lostMenuACon;
     public void LostGame()
     {
@@ -63,6 +85,11 @@ public class GameManager : MonoBehaviour
         lostMenuACon.SetTrigger("Open");
 
         ComboCounter.instance.LostCombo();
+
+        
+
+        ResetSpawnBrain();
+        SpawnBrain();
     }
 
     // Spawn stuff.
@@ -158,6 +185,16 @@ public class GameManager : MonoBehaviour
         }
 
         finishedThinking = true;
+    }
+
+    void ResetSpawnBrain()
+    {
+        difficulty = 0;
+        initialValue = 1.02f;
+        initialValuePower = 0;
+        shieldSpawnMinPrecentage = 100;
+        undestructableMinPrecentage = 1;
+        spawnPosition = new Vector3(0, 1.25f, 50);
     }
 
     private void AddInfoToSpawnArray(SpawnInformation.ObjectType type, int i)

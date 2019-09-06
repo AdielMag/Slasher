@@ -36,6 +36,7 @@ public class CameraController : MonoBehaviour
 
     public void DisableAnimator()
     {
-        //GetComponent<Animator>().enabled = false;
+        GetComponent<Animator>().enabled = false;
     }
+
 }
