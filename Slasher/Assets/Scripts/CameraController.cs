@@ -34,6 +34,12 @@ public class CameraController : MonoBehaviour
         floor.position = new Vector3(floor.position.x, 0, transform.position.z + 110);
     }
 
+    public void EnterLoadingScreen()
+    {
+        LoadingScreen.instance.Enter();
+        LoadingScreen.instance.Done();
+    }
+
     public void DisableAnimator()
     {
         GetComponent<Animator>().enabled = false;

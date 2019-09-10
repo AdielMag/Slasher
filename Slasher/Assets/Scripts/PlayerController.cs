@@ -200,13 +200,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    bool firstRun = true;
     public void ResetPlayer()
     {
         transform.position = Vector3.zero;
+
+        if (firstRun)
+            firstRun = false;
+        else
+            anim.SetTrigger("Live");
     }
 
     void LostGame()
-    { 
+    {
+        anim.SetTrigger("Death");
+
         gMan.LostGame();
         /* 
          * player stops moving and responding to touch
