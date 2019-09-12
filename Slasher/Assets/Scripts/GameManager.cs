@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public int maxSpawnedObj, spawnCounter = 0;
     [HideInInspector]
-    public int maxCurrnetObj = 30, currentSpawnedObj;
+    public int maxCurrnetObj = 50, currentSpawnedObj;
 
     ObjectPooler objPooler;
     LoadingScreen loadScr;
@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
     public int difficulty;
     float initialValue = 1.02f, initialValuePower;
     float shieldSpawnMinPrecentage = 100;
+    float shooterSpawnMinPrecentage = 100;
     float undestructableMinPrecentage = 1;
     Vector3 spawnPosition = new Vector3(0, 1.25f, 50); // Its outside the method because it needs to keep the record of all the past spawns.
     void SpawnBrain()
@@ -126,6 +127,21 @@ public class GameManager : MonoBehaviour
                 spawnPosition += Vector3.forward * verticalDiff;
 
                 shieldSpawnMinPrecentage = 100;
+            }
+            #endregion
+
+            #region Shooter
+            if (Random.Range(0f, 101) > shooterSpawnMinPrecentage)
+            {
+                spawnPosition = new Vector3(Random.Range(1, 5) * 2 - 5, 1.25f, spawnPosition.z);
+
+                AddInfoToSpawnArray(SpawnInformation.ObjectType.Shooter, i);
+
+                int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0, 2) * 4);
+                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
+                spawnPosition += Vector3.forward * verticalDiff;
+
+                shieldSpawnMinPrecentage *= 1.02f;
             }
             #endregion
 
@@ -180,6 +196,7 @@ public class GameManager : MonoBehaviour
                 i += segemtnLength - 1;
 
                 shieldSpawnMinPrecentage *= .999f;
+                shooterSpawnMinPrecentage *= .99f;
             }
             #endregion 
         }
@@ -193,6 +210,7 @@ public class GameManager : MonoBehaviour
         initialValue = 1.02f;
         initialValuePower = 0;
         shieldSpawnMinPrecentage = 100;
+        shooterSpawnMinPrecentage = 100;
         undestructableMinPrecentage = 1;
         spawnPosition = new Vector3(0, 1.25f, 50);
     }
@@ -216,6 +234,9 @@ public class GameManager : MonoBehaviour
             case SpawnInformation.ObjectType.Undestructable:
                 objPooler.SpawnFromPool("Undestructable", info.position, Quaternion.identity);
                 break;
+            case SpawnInformation.ObjectType.Shooter:
+                objPooler.SpawnFromPool("Shooter", info.position, Quaternion.identity);
+                break;
             case SpawnInformation.ObjectType.Shield:
                 objPooler.SpawnFromPool("Shield", info.position, Quaternion.identity);
                 break;
@@ -228,6 +249,6 @@ public class GameManager : MonoBehaviour
 class SpawnInformation
 {
     public Vector3 position;
-    public enum ObjectType { Regular, Shield, Undestructable }
+    public enum ObjectType { Regular, Shield, Undestructable,Shooter }
     public ObjectType objectType;
 }

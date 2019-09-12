@@ -36,8 +36,8 @@ public class CameraController : MonoBehaviour
 
     public void EnterLoadingScreen()
     {
-        LoadingScreen.instance.Enter();
         LoadingScreen.instance.Done();
+        LoadingScreen.instance.Enter();
     }
 
     public void DisableAnimator()

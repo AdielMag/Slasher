@@ -19,7 +19,18 @@ public class Objective : MonoBehaviour
         objPooler = ObjectPooler.instance;
 
         if (shooter)
+        {
+            float x = transform.position.x;
+
+            if (x >= 2)
+                shootRight = false;
+            else if (x <= -2)
+                shootRight = true;
+            else
+                shootRight = Random.Range(1f, 2f) == 1 ? true : false;
+
             InvokeRepeating("LaunchProjectile", 0, 3);
+        }
     }
 
     void LaunchProjectile()
@@ -27,7 +38,7 @@ public class Objective : MonoBehaviour
         Vector3 pos = transform.position + transform.right * (shootRight ? 1 : -1);
         Vector3 dir = shootRight ? transform.right : -transform.right;
 
-        GameObject projectile = objPooler.SpawnFromPool("shooterProjectile", pos, Quaternion.identity);
+        GameObject projectile = objPooler.SpawnFromPool("ShooterProjectile", pos, Quaternion.identity);
 
         projectile.GetComponent<Rigidbody>().AddForce(dir * 100, ForceMode.Acceleration);
     }

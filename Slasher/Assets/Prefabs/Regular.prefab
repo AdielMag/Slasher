@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2095616922913396323}
   - component: {fileID: 6220603610687434626}
   m_Layer: 9
-  m_Name: Sphere
+  m_Name: Regular
   m_TagString: Obj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d5f90a7faed5f594c8961b2b5b060d98, type: 2}
+  - {fileID: 2100000, guid: 894d33eb2fec6d549836632411d04a1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5296ae7337205940b84f2136d6d1c2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shooter: 0
+  shootRight: 0
   destructionEffectName: 
 --- !u!135 &6220603610687434626
 SphereCollider:
