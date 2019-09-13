@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
         {
             slashPlane[i] = slashes[i].transform.GetChild(0);
         }
+
+        Slice(1, new GameObject());
     }
 
     private void Update()
@@ -90,6 +92,7 @@ public class PlayerController : MonoBehaviour
   
     Vector3 halfExtents = new Vector3(.7f, 1.3f, 2.4f);
     Transform targetObjective;
+    int pointsMultiplier;
     void ObjectiveIdentification()
     {
         if (Physics.BoxCast(transform.position + Vector3.up * 1.2f, halfExtents,
@@ -111,7 +114,6 @@ public class PlayerController : MonoBehaviour
 
         slashes[slashNum - 1].SetActive(true);
 
-
         if (targetObjective)
         {
             if (!Physics.Raycast(targetObjective.position, targetObjective.forward,out RaycastHit hit, 5f) || hit.transform.tag == "Undestructable")
@@ -123,7 +125,20 @@ public class PlayerController : MonoBehaviour
         else
             anim.SetBool("Slash", false);
 
-        ComboCounter.instance.AddSlashToCombo();
+        switch (targetObjective.GetComponent<Objective>().type)
+        {
+            case SpawnInformation.ObjectType.Regular:
+                pointsMultiplier = 2;
+                break;
+            case SpawnInformation.ObjectType.Shooter:
+                pointsMultiplier = 3;
+                break;
+            case SpawnInformation.ObjectType.BonusPoints:
+                pointsMultiplier = 4;
+                break;
+        }
+
+        ComboCounter.instance.AddSlashToCombo(pointsMultiplier);
 
         StartCoroutine(StartSwordTrail());
     }
@@ -167,7 +182,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator DestroyObjective(int slashNum,GameObject obj)
     {
-        yield return new WaitForSeconds(.08f);
+        yield return new WaitForSeconds(.05f);
         Slice(slashNum, obj);
         targetObjective = null;
     }

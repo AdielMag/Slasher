@@ -8,6 +8,8 @@ public class Objective : MonoBehaviour
     [HideInInspector]
     public bool shootRight;
 
+    public SpawnInformation.ObjectType type;
+
     public string destructionEffectName;
 
     GameManager gMan;

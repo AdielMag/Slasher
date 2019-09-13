@@ -3608,6 +3608,11 @@ MonoBehaviour:
     prefab: {fileID: 1080310931315740, guid: c74760a8408799b41967bc5f76501b9f, type: 3}
     size: 50
     parent: {fileID: 0}
+  - tag: Bonus Points
+    prefab: {fileID: 6529465009711983533, guid: dae26725e2c573249aa9172c868aa812,
+      type: 3}
+    size: 60
+    parent: {fileID: 0}
 --- !u!4 &2021788699
 Transform:
   m_ObjectHideFlags: 0
@@ -3636,6 +3641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooter: 0
   shootRight: 0
+  type: 0
   destructionEffectName: 
 --- !u!1 &1211373480909412
 GameObject:

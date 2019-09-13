@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
                 AddInfoToSpawnArray(SpawnInformation.ObjectType.Shield, i);
 
                 int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0, 2) * 4);
-                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
+                verticalDiff = Mathf.Clamp(verticalDiff, 4, 60);
                 spawnPosition += Vector3.forward * verticalDiff;
 
                 shieldSpawnMinPrecentage = 100;
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
                 AddInfoToSpawnArray(SpawnInformation.ObjectType.Shooter, i);
 
                 int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(0, 2) * 4);
-                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
+                verticalDiff = Mathf.Clamp(verticalDiff, 4, 60);
                 spawnPosition += Vector3.forward * verticalDiff;
 
                 shieldSpawnMinPrecentage *= 1.02f;
@@ -174,8 +174,13 @@ public class GameManager : MonoBehaviour
 
                     // Define Type:
                     SpawnInformation.ObjectType type;
+                    if(!randomize && tempI > 2 && tempI == segemtnLength -1)
+                    {
+                        type = SpawnInformation.ObjectType.BonusPoints;
+                        undestructableMinPrecentage *= 1.01f;
+                    }
 
-                    if (Random.Range(0f, difficulty * undestructableMinPrecentage) > 2 + difficulty)
+                    else if (Random.Range(0f, difficulty * undestructableMinPrecentage) > 2 + difficulty)
                     {
                         type = SpawnInformation.ObjectType.Undestructable;
                         undestructableMinPrecentage *= 0.94f;
@@ -190,7 +195,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 int verticalDiff = 4 + Mathf.RoundToInt(Random.Range(1 - difficulty / 2f, 4 - difficulty /1.3f ) * 4);
-                verticalDiff = Mathf.Clamp(verticalDiff, 0, 60);
+                verticalDiff = Mathf.Clamp(verticalDiff, 4, 60);
                 spawnPosition += Vector3.forward * verticalDiff;
 
                 i += segemtnLength - 1;
@@ -237,6 +242,9 @@ public class GameManager : MonoBehaviour
             case SpawnInformation.ObjectType.Shooter:
                 objPooler.SpawnFromPool("Shooter", info.position, Quaternion.identity);
                 break;
+            case SpawnInformation.ObjectType.BonusPoints:
+                objPooler.SpawnFromPool("Bonus Points", info.position, Quaternion.identity);
+                break;
             case SpawnInformation.ObjectType.Shield:
                 objPooler.SpawnFromPool("Shield", info.position, Quaternion.identity);
                 break;
@@ -246,9 +254,9 @@ public class GameManager : MonoBehaviour
     }
 }
 
-class SpawnInformation
+public class SpawnInformation
 {
     public Vector3 position;
-    public enum ObjectType { Regular, Shield, Undestructable,Shooter }
+    public enum ObjectType { Regular, Shield, Undestructable,BonusPoints,Shooter }
     public ObjectType objectType;
 }

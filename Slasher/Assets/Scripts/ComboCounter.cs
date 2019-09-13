@@ -57,7 +57,7 @@ public class ComboCounter : MonoBehaviour
 
     void ResetCombo()
     {
-        PointsCounter.instance.AddPoints(comboCounter * 2);
+        PointsCounter.instance.AddPoints(comboCounter);
         comboCounter = 0;
     }
 
@@ -70,12 +70,14 @@ public class ComboCounter : MonoBehaviour
         shadow.effectColor = new Color(shadow.effectColor.r + 3, shadow.effectColor.g - 1, shadow.effectColor.b - 1);
     }
 
-    public void AddSlashToCombo()
+    public void AddSlashToCombo(int pointsMultiplier)
     {
         anim.SetBool("InCombo", true);
-        comboCounter++;
+        comboCounter += pointsMultiplier;
+       // comboCounter = Mathf.RoundToInt(comboCounter * 1.2f);
         lastTimeSlashed = Time.time + timeToAddForSlash;
-        text.text = "+" + (comboCounter * 2).ToString();
+
+        text.text = "+" + comboCounter.ToString();
 
         rect.localScale *= 1.24f;
         rect.localRotation *= Quaternion.Euler(0, Random.Range(-5, 5), Random.Range(-5, 5));

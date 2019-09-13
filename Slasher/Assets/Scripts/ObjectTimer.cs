@@ -7,6 +7,13 @@ public class ObjectTimer : MonoBehaviour,IPooledObject
     public float time;
     float spawnedTime;
 
+    Rigidbody rgb;
+
+    private void Start()
+    {
+        rgb = GetComponent<Rigidbody>();
+    }
+
     public void OnObjectSpawn()
     {
     }
@@ -21,5 +28,14 @@ public class ObjectTimer : MonoBehaviour,IPooledObject
     {
         if (Time.time > spawnedTime + time)
             gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        if (rgb)
+        {
+            rgb.velocity = Vector3.zero;
+            rgb.angularVelocity = Vector3.zero;
+        }
     }
 }
