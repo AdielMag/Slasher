@@ -16,12 +16,16 @@ public class GameManager : MonoBehaviour
 
     public bool playing;
 
+    [HideInInspector]
+    public bool isTouching;
+
     SpawnInformation[] spawnInfo = new SpawnInformation[500];
 
     public int maxSpawnedObj, spawnCounter = 0;
     [HideInInspector]
     public int maxCurrnetObj = 50, currentSpawnedObj;
 
+    public Animator touchIndiactor;
     ObjectPooler objPooler;
     LoadingScreen loadScr;
 
@@ -38,6 +42,11 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        isTouching = Input.touchCount > 0 ? true : false;
+
+        Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : 0, Time.fixedDeltaTime * 6);
+
+        touchIndiactor.SetBool("On", !playing ? false : isTouching ? false : true);
         if (!playing)
             return;
 
