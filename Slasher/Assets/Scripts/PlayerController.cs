@@ -143,6 +143,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(StartSwordTrail());
     }
 
+    public Material slashMaterial;
     Transform[] slashPlane = new Transform[4];
     void Slice(int sliceNum,GameObject objectToSlice )
     {
@@ -150,8 +151,8 @@ public class PlayerController : MonoBehaviour
 
         if (hull != null)
         {
-            GameObject firstHalf = hull.CreateLowerHull(objectToSlice);
-            GameObject secondHalf = hull.CreateUpperHull(objectToSlice);
+            GameObject firstHalf = hull.CreateLowerHull(objectToSlice,slashMaterial);
+            GameObject secondHalf = hull.CreateUpperHull(objectToSlice,slashMaterial);
 
             #region Rigidbody 
             Rigidbody firstHalfRb = firstHalf.AddComponent<Rigidbody>();
@@ -168,8 +169,11 @@ public class PlayerController : MonoBehaviour
             #endregion
 
 
-            firstHalf.AddComponent<DissolveEffect>();
-            secondHalf.AddComponent<DissolveEffect>();
+            //firstHalf.AddComponent<DissolveEffect>();
+            //secondHalf.AddComponent<DissolveEffect>();
+
+            firstHalf.AddComponent<DissapearEffect>();
+            secondHalf.AddComponent<DissapearEffect>();
 
             objectToSlice.SetActive(false);
         }
