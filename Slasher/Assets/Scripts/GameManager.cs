@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public bool playing;
 
     [HideInInspector]
-    public bool isTouching;
+    public bool isTouching = true;
 
     SpawnInformation[] spawnInfo = new SpawnInformation[500];
 
@@ -42,11 +42,13 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+#if !UNITY_EDITOR
         isTouching = Input.touchCount > 0 ? true : false;
 
         Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : 0, Time.fixedDeltaTime * 6);
 
         touchIndiactor.SetBool("On", !playing ? false : isTouching ? false : true);
+#endif
         if (!playing)
             return;
 
@@ -79,12 +81,18 @@ public class GameManager : MonoBehaviour
 
         spawnCounter = 0;
 
-        playing = true;
+        StartCoroutine(OffsetStartPlaying());
         PlayerController.instance.anim.SetFloat("Forward", 1);
 
         PointsCounter.instance.Reset();
 
         PlayerController.instance.ResetPlayer();
+    }
+
+    IEnumerator OffsetStartPlaying()
+    {
+        yield return new WaitForSeconds(.25f);
+        playing = true;
     }
 
     public Animator lostMenuACon;

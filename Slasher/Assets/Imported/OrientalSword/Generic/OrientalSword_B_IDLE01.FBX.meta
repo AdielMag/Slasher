@@ -470,14 +470,13 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Errors found in
-      old project file will be treated as a warnings. Configuration mis-match will
-      be ignored, but current Configuration needs to be fixed:\n\tParent for 'Bip002
-      L Thigh' differs from one found in HumanDescription. 'Bip002 Spine' was found
-      instead of 'Bip002 Pelvis'.\nCopied Avatar Rig Configuration mis-match. Bone
-      length in copied configuration does not match position in animation file:\n\t'Bip002
-      L Thigh' : position error = 219.095734 mm\n\t'Bip002 R Thigh' : position error
-      = 230.950134 mm\n"
+    rigImportWarnings: "Avatar creation errors found in old project file will be treated
+      as a warnings. Error will be ignored, but current Configuration needs to be
+      fixed:\n\tParent for 'Bip002 L Thigh' differs from one found in HumanDescription.
+      'Bip002 Spine' was found instead of 'Bip002 Pelvis'.\nAvatar Rig Configuration
+      mis-match. Bone length in configuration does not match position in animation
+      file:\n\t'Bip002 L Thigh' : position error = 214.310684 mm\n\t'Bip002 R Thigh'
+      : position error = 225.906235 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -499,15 +498,15 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: 52.02
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1

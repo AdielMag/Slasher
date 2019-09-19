@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!gMan.playing || !gMan.isTouching)
+        if (!gMan.playing)
             return;
 
         MovePlayer();
