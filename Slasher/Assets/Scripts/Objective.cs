@@ -17,7 +17,7 @@ public class Objective : MonoBehaviour
 
     private void Start()
     {
-        gMan = GameManager.instace;
+        gMan = GameManager.instance;
         objPooler = ObjectPooler.instance;
 
         if (shooter)
@@ -54,7 +54,7 @@ public class Objective : MonoBehaviour
             if (gMan)
                 gMan.currentSpawnedObj--;
             else
-                GameManager.instace.currentSpawnedObj--;
+                GameManager.instance.currentSpawnedObj--;
 
             tag = "Obj";
         }

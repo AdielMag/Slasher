@@ -1,14 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     #region Singelton
-    public static GameManager instace;
+    public static GameManager instance;
     private void Awake()
     {
-        instace = this;
+        instance = this;
 
         Application.targetFrameRate = 120;
     }
@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour
     public int maxSpawnedObj, spawnCounter = 0;
     [HideInInspector]
     public int maxCurrnetObj = 50, currentSpawnedObj;
+
+     float timeLeft;
+    float newRunTime = 1;
+
+    public Slider timeLeftIndicator;
 
     public Animator touchIndiactor;
     ObjectPooler objPooler;
@@ -45,12 +50,19 @@ public class GameManager : MonoBehaviour
 #if !UNITY_EDITOR
         isTouching = Input.touchCount > 0 ? true : false;
 
-        Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : 0, Time.fixedDeltaTime * 6);
+        Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : .2f, Time.fixedDeltaTime * 6);
 
         touchIndiactor.SetBool("On", !playing ? false : isTouching ? false : true);
 #endif
         if (!playing)
             return;
+
+        timeLeft -= .001f;
+
+        timeLeftIndicator.value = timeLeft / newRunTime;
+
+        if (timeLeft <= 0)
+            PlayerController.instance.LostGame();
 
         if (!finishedThinking)
             return;
@@ -84,9 +96,14 @@ public class GameManager : MonoBehaviour
         StartCoroutine(OffsetStartPlaying());
         PlayerController.instance.anim.SetFloat("Forward", 1);
 
-        PointsCounter.instance.Reset();
+        ResetPoints();
 
         PlayerController.instance.ResetPlayer();
+
+        inGameScoreIndicator.gameObject.SetActive(true);
+        timeLeftIndicator.gameObject.SetActive(true);
+
+        timeLeft = newRunTime;
     }
 
     IEnumerator OffsetStartPlaying()
@@ -95,15 +112,13 @@ public class GameManager : MonoBehaviour
         playing = true;
     }
 
-    public Animator lostMenuACon;
+    public Animator lostMenuAnimatorController;
     public void LostGame()
     {
         playing = false;
-        lostMenuACon.SetTrigger("Open");
+        lostMenuAnimatorController.SetTrigger("Open");
 
         ComboCounter.instance.LostCombo();
-
-        
 
         ResetSpawnBrain();
         SpawnBrain();
@@ -269,6 +284,30 @@ public class GameManager : MonoBehaviour
         currentSpawnedObj++;
         spawnCounter++;
     }
+
+    public void AddTime(float amount)
+    {
+        timeLeft = timeLeft + amount > newRunTime ? newRunTime : timeLeft + amount;
+    }
+
+    #region Points 
+    [Header("Points Variables")]
+    public Text inGameScoreIndicator;
+
+    public int points;
+
+    public void AddPoints(int amount)
+    {
+        points += amount;
+
+        inGameScoreIndicator.text = points.ToString();
+    }
+
+    public void ResetPoints()
+    {
+        points = points = 0;
+    }
+    #endregion
 }
 
 public class SpawnInformation

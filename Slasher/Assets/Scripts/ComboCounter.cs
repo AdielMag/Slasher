@@ -57,14 +57,13 @@ public class ComboCounter : MonoBehaviour
 
     void ResetCombo()
     {
-        PointsCounter.instance.AddPoints(comboCounter);
+        GameManager.instance.AddPoints(comboCounter);
         comboCounter = 0;
     }
 
     public void LostCombo()
     {
         comboCounter = 0;
-        anim.SetTrigger("Lost Combo");
 
         rect.localScale *= 2f;
         shadow.effectColor = new Color(shadow.effectColor.r + 3, shadow.effectColor.g - 1, shadow.effectColor.b - 1);

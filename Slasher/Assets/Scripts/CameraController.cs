@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         positionOffset = transform.position;
-        gMan = GameManager.instace;
+        gMan = GameManager.instance;
     }
 
     private void FixedUpdate()

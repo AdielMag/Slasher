@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         screenWidth = Screen.width;
 
         anim = GetComponent<Animator>();
-        gMan = GameManager.instace;
+        gMan = GameManager.instance;
 
         for(int i=0; i < slashes.Length; i++)
         {
@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
         ComboCounter.instance.AddSlashToCombo(pointsMultiplier);
 
         StartCoroutine(StartSwordTrail());
+
+        gMan.AddTime(.12f);
     }
 
     public Material slashMaterial;
@@ -227,7 +229,7 @@ public class PlayerController : MonoBehaviour
             anim.SetTrigger("Live");
     }
 
-    void LostGame()
+    public void LostGame()
     {
         anim.SetTrigger("Death");
 

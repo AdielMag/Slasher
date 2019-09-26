@@ -19,7 +19,7 @@ public class StoreManager : MonoBehaviour
     Quaternion origRot;
 
     public Animator storeAC, mainMenuAc;
-    public Text buyOrEquip;
+    public Text coinsIndicator,buyOrEquip,priceText;
 
     Transform charactersParent, weaponsParent;
     bool weapons = true, characters;
@@ -65,6 +65,12 @@ public class StoreManager : MonoBehaviour
 
         objectDisplayer.SetBool("Off", false);
 
+        coinsIndicator.text = coins.ToString();
+
+        GameManager.instance.inGameScoreIndicator.gameObject.SetActive(false);
+        GameManager.instance.timeLeftIndicator.gameObject.SetActive(false);
+
+
     }
 
     IEnumerator CloseStoreDelayed()
@@ -78,6 +84,9 @@ public class StoreManager : MonoBehaviour
         mainMenuAc.SetTrigger("Open");
 
         objectDisplayer.SetBool("Off", true);
+
+        GameManager.instance.inGameScoreIndicator.gameObject.SetActive(true);
+        GameManager.instance.timeLeftIndicator.gameObject.SetActive(true);
 
     }
 
@@ -153,13 +162,19 @@ public class StoreManager : MonoBehaviour
         else
             itemToCheck = charactersParent.GetChild(charactersItemNum).GetComponent<StoreItem>();
 
-        if(itemToCheck.equipped)
+        priceText.gameObject.SetActive(false);
+
+        if (itemToCheck.equipped)
             buyOrEquip.text = "Equipped";
         else if (itemToCheck.bought)
             buyOrEquip.text = "Equip";
         else
+        {
             buyOrEquip.text = "Buy";
 
+            priceText.gameObject.SetActive(true);
+            priceText.text = "Cost: " + itemToCheck.price;
+        }
     }
 
     public void BuyItem()
@@ -187,6 +202,8 @@ public class StoreManager : MonoBehaviour
                 currentItem.bought = true;
         }
         CheckItemConditions();
+
+        coinsIndicator.text = coins.ToString();
     }
 
     public Transform playerCharacters, playerWeapons;
