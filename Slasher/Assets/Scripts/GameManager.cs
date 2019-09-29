@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
             #endregion
 
             #region Shooter
-            if (Random.Range(0f, 101) > shooterSpawnMinPrecentage)
+            else if (Random.Range(0f, 101) > shooterSpawnMinPrecentage)
             {
                 spawnPosition = new Vector3(Random.Range(1, 5) * 2 - 5, 1.25f, spawnPosition.z);
 
@@ -173,7 +173,8 @@ public class GameManager : MonoBehaviour
                 verticalDiff = Mathf.Clamp(verticalDiff, 4, 60);
                 spawnPosition += Vector3.forward * verticalDiff;
 
-                shieldSpawnMinPrecentage *= 1.02f;
+                shieldSpawnMinPrecentage *= .995f;
+                shooterSpawnMinPrecentage *= 1.02f;
             }
             #endregion
 
@@ -232,7 +233,7 @@ public class GameManager : MonoBehaviour
 
                 i += segemtnLength - 1;
 
-                shieldSpawnMinPrecentage *= .999f;
+                shieldSpawnMinPrecentage *= .998f;
                 shooterSpawnMinPrecentage *= .99f;
             }
             #endregion 
