@@ -20,7 +20,9 @@ public class PlayerController : MonoBehaviour
 
     int screenWidth;
 
-    public ParticleSystem swordTrail;
+    public ParticleSystem[] swordTrails;
+    [HideInInspector]
+    public int swordTrailNum = 0;
     public GameObject[] slashes;
 
     [HideInInspector]
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     public void Slash(int slashNum)
     {
-        swordTrail.Stop();
+        swordTrails[swordTrailNum].Stop();
 
         slashes[slashNum - 1].SetActive(true);
 
@@ -184,7 +186,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator StartSwordTrail()
     {
         yield return new WaitForSeconds(.25f);
-        swordTrail.Play();
+        swordTrails[swordTrailNum].Play();
     }
     IEnumerator DestroyObjective(int slashNum,GameObject obj)
     {
@@ -204,6 +206,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!gMan.playing)
+            return;
+
         switch (other.tag)
         {
             case "Obj":
@@ -221,6 +226,8 @@ public class PlayerController : MonoBehaviour
     bool firstRun = true;
     public void ResetPlayer()
     {
+        swordTrails[swordTrailNum].Play();
+
         transform.position = Vector3.zero;
 
         if (firstRun)

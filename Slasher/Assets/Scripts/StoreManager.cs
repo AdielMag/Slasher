@@ -195,7 +195,7 @@ public class StoreManager : MonoBehaviour
             if (currentItem.bought)
             {
                 currentItem.equipped = true;
-                if (weapons && weaponItemNum != equippedWeaponItemNum)
+                if (weapons && weaponItemNum != equippedWeaponItemNum) 
                     weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
                 else if(characters && charactersItemNum != equippedCharacterItemNum )
                     charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
@@ -219,10 +219,14 @@ public class StoreManager : MonoBehaviour
         else
             playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(false);
 
-        equippedCharacterItemNum = weapons ? weaponItemNum : charactersItemNum;
+        equippedCharacterItemNum = charactersItemNum;
+        equippedWeaponItemNum = weaponItemNum;
 
         if (weapons)
+        {
             playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(true);
+            PlayerController.instance.swordTrailNum = equippedWeaponItemNum;
+        }
         else
             playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(true);
     }
