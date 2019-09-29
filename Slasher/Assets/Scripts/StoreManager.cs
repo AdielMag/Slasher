@@ -19,7 +19,8 @@ public class StoreManager : MonoBehaviour
     Quaternion origRot;
 
     public Animator storeAC, mainMenuAc;
-    public Text coinsIndicator,buyOrEquip,priceText;
+    public Transform buyIconsParent;
+    public Text coinsIndicator,priceText;
 
     Transform charactersParent, weaponsParent;
     bool weapons = true, characters;
@@ -60,6 +61,7 @@ public class StoreManager : MonoBehaviour
         OpenMenu("Weapons");
         myCamera.rotation = Quaternion.Euler(0, -90, 0);
         objectDisplayer.gameObject.SetActive(true);
+        storeAC.gameObject.SetActive(true);
         storeAC.SetBool("On", true);
         mainMenuAc.SetTrigger("Close");
 
@@ -80,6 +82,7 @@ public class StoreManager : MonoBehaviour
         yield return new WaitForSeconds(.3f);
         myCamera.rotation = origRot;
         objectDisplayer.gameObject.SetActive(false);
+        storeAC.gameObject.SetActive(false);
         storeAC.SetBool("On", false);
         mainMenuAc.SetTrigger("Open");
 
@@ -162,18 +165,20 @@ public class StoreManager : MonoBehaviour
         else
             itemToCheck = charactersParent.GetChild(charactersItemNum).GetComponent<StoreItem>();
 
-        priceText.gameObject.SetActive(false);
+        foreach(Transform obj in buyIconsParent)
+        {
+            obj.gameObject.SetActive(false);
+        }
 
         if (itemToCheck.equipped)
-            buyOrEquip.text = "Equipped";
+            buyIconsParent.GetChild(2).gameObject.SetActive(true);
         else if (itemToCheck.bought)
-            buyOrEquip.text = "Equip";
+            buyIconsParent.GetChild(1).gameObject.SetActive(true);
         else
         {
-            buyOrEquip.text = "Buy";
+            buyIconsParent.GetChild(0).gameObject.SetActive(true);
 
-            priceText.gameObject.SetActive(true);
-            priceText.text = "Cost: " + itemToCheck.price;
+            priceText.text = itemToCheck.price.ToString();
         }
     }
 
