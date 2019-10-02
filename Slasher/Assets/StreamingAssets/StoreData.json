@@ -1,7 +1,1 @@
-{
-    "CharactersBought": [ 0 ],
-    "EquippedCharacter": 0,
-
-    "WeaponsBought": [ 0 ],
-    "EquippedWeapon": 0
-}
+{"CharactersBought":[0],"EquippedCharacter":0,"WeaponsBought":[3,0,0,0],"EquippedWeapon":3}

@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class StoreManager : MonoBehaviour
 {
-   public static StoreManager instance;
+    #region Singelton
+    public static StoreManager instance;
     private void Awake()
     {
         instance = this;
     }
+    #endregion
 
     public int coins;
     [Space]
@@ -20,7 +22,7 @@ public class StoreManager : MonoBehaviour
 
     public Animator storeAC, mainMenuAc;
     public Transform buyIconsParent;
-    public Text coinsIndicator,priceText;
+    public Text coinsIndicator, priceText;
 
     Transform charactersParent, weaponsParent;
     bool weapons = true, characters;
@@ -28,12 +30,14 @@ public class StoreManager : MonoBehaviour
     int weaponItemNum, charactersItemNum;
     int equippedWeaponItemNum = 0, equippedCharacterItemNum = 0;
 
+    JsonDataManager jDataMan;
     LoadingScreen loadScr;
     Animator anim;
     private void Start()
     {
         anim = GetComponent<Animator>();
         loadScr = LoadingScreen.instance;
+        jDataMan = JsonDataManager.instance;
 
         objectDisplayer = myCamera.GetChild(2).GetComponent<Animator>();
         origRot = myCamera.rotation;
@@ -57,6 +61,7 @@ public class StoreManager : MonoBehaviour
     {
         loadScr.Done();
         loadScr.Enter();
+        LoadStoreData();
         yield return new WaitForSeconds(.3f);
         OpenMenu("Weapons");
         myCamera.rotation = Quaternion.Euler(0, -90, 0);
@@ -79,6 +84,7 @@ public class StoreManager : MonoBehaviour
     {
         loadScr.Done();
         loadScr.Enter();
+        SaveStoreData();
         yield return new WaitForSeconds(.3f);
         myCamera.rotation = origRot;
         objectDisplayer.gameObject.SetActive(false);
@@ -97,7 +103,7 @@ public class StoreManager : MonoBehaviour
     {
         if (weapons)
         {
-            if (weaponItemNum == weaponsParent.childCount -1)
+            if (weaponItemNum == weaponsParent.childCount - 1)
                 return;
             weaponsParent.GetChild(weaponItemNum).gameObject.SetActive(false);
             weaponItemNum++;
@@ -105,7 +111,7 @@ public class StoreManager : MonoBehaviour
         }
         else
         {
-            if (charactersItemNum == charactersParent.childCount -1)
+            if (charactersItemNum == charactersParent.childCount - 1)
                 return;
             charactersParent.GetChild(charactersItemNum).gameObject.SetActive(false);
             charactersItemNum++;
@@ -144,7 +150,7 @@ public class StoreManager : MonoBehaviour
         {
             weapons = true;
             characters = false;
-            objectDisplayer.SetBool("Weapons",true);
+            objectDisplayer.SetBool("Weapons", true);
             objectDisplayer.SetBool("Characters", false);
         }
         else
@@ -157,7 +163,7 @@ public class StoreManager : MonoBehaviour
         CheckItemConditions();
     }
 
-    void CheckItemConditions( )
+    void CheckItemConditions()
     {
         StoreItem itemToCheck;
         if (weapons)
@@ -165,7 +171,7 @@ public class StoreManager : MonoBehaviour
         else
             itemToCheck = charactersParent.GetChild(charactersItemNum).GetComponent<StoreItem>();
 
-        foreach(Transform obj in buyIconsParent)
+        foreach (Transform obj in buyIconsParent)
         {
             obj.gameObject.SetActive(false);
         }
@@ -195,9 +201,9 @@ public class StoreManager : MonoBehaviour
             if (currentItem.bought)
             {
                 currentItem.equipped = true;
-                if (weapons && weaponItemNum != equippedWeaponItemNum) 
+                if (weapons && weaponItemNum != equippedWeaponItemNum)
                     weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
-                else if(characters && charactersItemNum != equippedCharacterItemNum )
+                else if (characters && charactersItemNum != equippedCharacterItemNum)
                     charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
 
 
@@ -216,6 +222,7 @@ public class StoreManager : MonoBehaviour
     {
         if (weapons)
             playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(false);
+
         else
             playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(false);
 
@@ -229,5 +236,65 @@ public class StoreManager : MonoBehaviour
         }
         else
             playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(true);
+    }
+
+    void LoadStoreData()
+    {
+        jDataMan.LoadData();
+
+        // Characters.
+        for (int i = 0; i < charactersParent.childCount; i++)
+        {
+            charactersParent.GetChild(i).GetComponent<StoreItem>().bought = false;
+            charactersParent.GetChild(i).GetComponent<StoreItem>().equipped = false;
+        }
+        for (int i = 0; i < jDataMan.storeData.CharactersBought.Length; i++)
+            charactersParent.GetChild(jDataMan.storeData.CharactersBought[i]).GetComponent<StoreItem>().bought = true;
+        charactersParent.GetChild(jDataMan.storeData.EquippedCharacter).GetComponent<StoreItem>().equipped = true;
+
+        // Weapons.
+        for (int i = 0; i < weaponsParent.childCount; i++)
+        {
+            weaponsParent.GetChild(i).GetComponent<StoreItem>().bought = false;
+            weaponsParent.GetChild(i).GetComponent<StoreItem>().equipped = false;
+        }
+        for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
+            weaponsParent.GetChild(jDataMan.storeData.WeaponsBought[i]).GetComponent<StoreItem>().bought = true;
+        weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = true;
+    }
+
+    void SaveStoreData()
+    {
+        // Characters.
+        int charactersBoughtCounter = 0;
+        for (int i = 0; i < charactersParent.childCount; i++)
+        {
+            if (charactersParent.GetChild(i).GetComponent<StoreItem>().bought)
+            {
+                jDataMan.storeData.CharactersBought[charactersBoughtCounter] = i;
+                charactersBoughtCounter++;
+
+                if (charactersParent.GetChild(i).GetComponent<StoreItem>().equipped)
+                    jDataMan.storeData.EquippedCharacter = i;
+            }
+        }
+
+        // Weapons.
+        int weaponsBoughtCounter = 0;
+        for (int i = 0; i < weaponsParent.childCount; i++)
+        {
+            if (weaponsParent.GetChild(i).GetComponent<StoreItem>().bought)
+            {
+                if(weaponsBoughtCounter > jDataMan.storeData.WeaponsBought.Length -1)
+                    // Find a way to add it to the array (maybe make a list than convert it to new array)
+                jDataMan.storeData.WeaponsBought[weaponsBoughtCounter] = i;
+                weaponsBoughtCounter++;
+
+                if (weaponsParent.GetChild(i).GetComponent<StoreItem>().equipped)
+                    jDataMan.storeData.EquippedWeapon = i;
+            }
+        }
+
+        jDataMan.SaveData();
     }
 }

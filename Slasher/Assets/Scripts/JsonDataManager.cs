@@ -17,13 +17,15 @@ public class JsonDataManager : MonoBehaviour
     public StoreData storeData;
     public GamePlayData gamePlayData;
 
-    void LoadData()
+
+
+    public void LoadData()
     {
         storeData = JsonUtility.FromJson<StoreData>(File.ReadAllText(storeJsonPath));
         gamePlayData = JsonUtility.FromJson<GamePlayData>(File.ReadAllText(gamePlayJsonPath));
     }
 
-    void SaveData()
+    public void SaveData()
     {
         File.WriteAllText(storeJsonPath, JsonUtility.ToJson(storeData));
         File.WriteAllText(gamePlayJsonPath, JsonUtility.ToJson(gamePlayData));
