@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             slashPlane[i] = slashes[i].transform.GetChild(0);
         }
 
-        Slice(1, new GameObject());
+        LoadPlayerItems();
     }
 
     private void Update()
@@ -90,7 +90,6 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(targetRotation);
     }
-
   
     Vector3 halfExtents = new Vector3(.7f, 1.3f, 2.4f);
     Transform targetObjective;
@@ -246,5 +245,23 @@ public class PlayerController : MonoBehaviour
          * Ui menu opens
          * Points (coins?) are saved.
          */
+    }
+
+    void LoadPlayerItems()
+    {
+        JsonDataManager.instance.LoadData();
+
+        Transform characterParent = StoreManager.instance.playerCharacters;
+        for (int i = 0; i < characterParent.childCount - 1; i++)
+            characterParent.GetChild(i).gameObject.SetActive(false);
+
+        characterParent.GetChild(JsonDataManager.instance.storeData.EquippedCharacter).gameObject.SetActive(true);
+
+        Transform weaponsParent = StoreManager.instance.playerWeapons;
+        foreach (Transform obj in weaponsParent)
+            obj.gameObject.SetActive(false);
+
+        weaponsParent.GetChild(JsonDataManager.instance.storeData.EquippedWeapon).gameObject.SetActive(true);
+
     }
 }

@@ -25,7 +25,8 @@ public class StoreManager : MonoBehaviour
     public Text coinsIndicator, priceText;
 
     Transform charactersParent, weaponsParent;
-    bool weapons = true, characters;
+    
+    bool weapons = true;
 
     int weaponItemNum, charactersItemNum;
     int equippedWeaponItemNum = 0, equippedCharacterItemNum = 0;
@@ -149,14 +150,12 @@ public class StoreManager : MonoBehaviour
         if (menuType == "Weapons")
         {
             weapons = true;
-            characters = false;
             objectDisplayer.SetBool("Weapons", true);
             objectDisplayer.SetBool("Characters", false);
         }
         else
         {
             weapons = false;
-            characters = true;
             objectDisplayer.SetBool("Weapons", false);
             objectDisplayer.SetBool("Characters", true);
         }
@@ -203,7 +202,7 @@ public class StoreManager : MonoBehaviour
                 currentItem.equipped = true;
                 if (weapons && weaponItemNum != equippedWeaponItemNum)
                     weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
-                else if (characters && charactersItemNum != equippedCharacterItemNum)
+                else if (charactersItemNum != equippedCharacterItemNum)
                     charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
 
 
@@ -218,7 +217,7 @@ public class StoreManager : MonoBehaviour
     }
 
     public Transform playerCharacters, playerWeapons;
-    void EquipItem()
+    public void EquipItem()
     {
         if (weapons)
             playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(false);
@@ -261,39 +260,43 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
             weaponsParent.GetChild(jDataMan.storeData.WeaponsBought[i]).GetComponent<StoreItem>().bought = true;
         weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = true;
+
+         coins= jDataMan.storeData.Coins;
+
     }
 
     void SaveStoreData()
     {
         // Characters.
-        int charactersBoughtCounter = 0;
+        List<int> characterList = new List<int>();
         for (int i = 0; i < charactersParent.childCount; i++)
         {
             if (charactersParent.GetChild(i).GetComponent<StoreItem>().bought)
             {
-                jDataMan.storeData.CharactersBought[charactersBoughtCounter] = i;
-                charactersBoughtCounter++;
+                characterList.Add(i);
+                //jDataMan.storeData.CharactersBought[charactersBoughtCounter] = i;
 
                 if (charactersParent.GetChild(i).GetComponent<StoreItem>().equipped)
                     jDataMan.storeData.EquippedCharacter = i;
             }
         }
+        jDataMan.storeData.CharactersBought = characterList.ToArray();
 
         // Weapons.
-        int weaponsBoughtCounter = 0;
+        List<int> weaponsList = new List<int>();
         for (int i = 0; i < weaponsParent.childCount; i++)
         {
             if (weaponsParent.GetChild(i).GetComponent<StoreItem>().bought)
             {
-                if(weaponsBoughtCounter > jDataMan.storeData.WeaponsBought.Length -1)
-                    // Find a way to add it to the array (maybe make a list than convert it to new array)
-                jDataMan.storeData.WeaponsBought[weaponsBoughtCounter] = i;
-                weaponsBoughtCounter++;
+                weaponsList.Add(i);
 
                 if (weaponsParent.GetChild(i).GetComponent<StoreItem>().equipped)
                     jDataMan.storeData.EquippedWeapon = i;
             }
         }
+        jDataMan.storeData.WeaponsBought = weaponsList.ToArray();
+
+        jDataMan.storeData.Coins = coins;
 
         jDataMan.SaveData();
     }

@@ -35,6 +35,7 @@ public class JsonDataManager : MonoBehaviour
 [System.Serializable]
 public class StoreData
 {
+    public int Coins;
     public int[] CharactersBought;
     public int EquippedCharacter;
 

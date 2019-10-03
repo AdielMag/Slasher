@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Slider timeLeftIndicator;
 
     public Animator touchIndiactor;
+    JsonDataManager jDataMan;
     ObjectPooler objPooler;
     LoadingScreen loadScr;
 
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
         objPooler.StartLevel();
 
         loadScr = LoadingScreen.instance;
+        jDataMan = JsonDataManager.instance;
 
         maxSpawnedObj = spawnInfo.Length;
         SpawnBrain();
@@ -119,6 +122,8 @@ public class GameManager : MonoBehaviour
         lostMenuAnimatorController.SetTrigger("Open");
 
         ComboCounter.instance.LostCombo();
+
+        HandleGameData();
 
         ResetSpawnBrain();
         SpawnBrain();
@@ -296,6 +301,35 @@ public class GameManager : MonoBehaviour
     public Text inGameScoreIndicator;
 
     public int points;
+
+    void HandleGameData()
+    {
+        jDataMan.LoadData();
+
+        // High Scores
+        List<int> highScores = new List<int>();
+
+        foreach (int score in jDataMan.gamePlayData.HighestScores)
+        {
+            if (highScores.Count == 10)
+                break;
+
+            if (points > score)
+                highScores.Add(points);
+
+            highScores.Add(score);
+        }
+
+        jDataMan.gamePlayData.HighestScores = highScores.ToArray();
+
+        // Games Played
+        jDataMan.gamePlayData.TotalGamePlayed++;
+
+        // Ball Sliced
+
+
+        jDataMan.SaveData();
+    }
 
     public void AddPoints(int amount)
     {
