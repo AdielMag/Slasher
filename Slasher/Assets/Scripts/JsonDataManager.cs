@@ -14,10 +14,11 @@ public class JsonDataManager : MonoBehaviour
     string storeJsonPath = Application.streamingAssetsPath + "/StoreData.json";
     string gamePlayJsonPath = Application.streamingAssetsPath + "/GamePlayData.json";
 
+    string storeDataPath, gamePlayDataPath;
+
     public StoreData storeData;
     public GamePlayData gamePlayData;
-
-
+   
 
     public void LoadData()
     {
