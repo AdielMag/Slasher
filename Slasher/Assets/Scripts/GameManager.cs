@@ -304,7 +304,7 @@ public class GameManager : MonoBehaviour
 
     void HandleGameData()
     {
-        StartCoroutine(jDataMan.LoadData());
+        jDataMan.LoadData();
 
         // High Scores
         List<int> highScores = new List<int>();
@@ -328,7 +328,7 @@ public class GameManager : MonoBehaviour
         // Ball Sliced
 
 
-       StartCoroutine (jDataMan.SaveData());
+       jDataMan.SaveData();
     }
 
     public void AddPoints(int amount)

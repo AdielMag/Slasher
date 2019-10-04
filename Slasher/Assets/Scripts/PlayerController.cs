@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour
 
     void LoadPlayerItems()
     {
-        StartCoroutine (JsonDataManager.instance.LoadData());
+        JsonDataManager.instance.LoadData();
 
         Transform characterParent = StoreManager.instance.playerCharacters;
         for (int i = 0; i < characterParent.childCount - 1; i++)

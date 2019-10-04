@@ -38,6 +38,7 @@ public class StoreManager : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         loadScr = LoadingScreen.instance;
+
         jDataMan = JsonDataManager.instance;
 
         objectDisplayer = myCamera.GetChild(2).GetComponent<Animator>();
@@ -239,7 +240,7 @@ public class StoreManager : MonoBehaviour
 
     void LoadStoreData()
     {
-        StartCoroutine (jDataMan.LoadData());
+        jDataMan.LoadData();
 
         // Characters.
         for (int i = 0; i < charactersParent.childCount; i++)
@@ -298,6 +299,6 @@ public class StoreManager : MonoBehaviour
 
         jDataMan.storeData.Coins = coins;
 
-        StartCoroutine(jDataMan.SaveData());
+        jDataMan.SaveData();
     }
 }

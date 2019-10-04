@@ -1,114 +1,52 @@
 ﻿using System.IO;
 using System.Collections;
-using System.Collections.Generic;using UnityEngine;
+using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.Networking;
 
 public class JsonDataManager : MonoBehaviour
 {
-    #region Singelton
     public static JsonDataManager instance;
     private void Awake()
     {
         instance = this;
+
+        storeDataPath = Path.Combine(Application.persistentDataPath, "StoreData.json");
+        gameplayDataPath = Path.Combine(Application.persistentDataPath, "GameplayData.json");
     }
-    #endregion
 
-    string storeJsonPath = Application.streamingAssetsPath + "/StoreData.json";
-    string gamePlayJsonPath = Application.streamingAssetsPath + "/GamePlayData.json";
-
-    //string storeDataPath, gamePlayDataPath;
+    string storeDataPath, gameplayDataPath;
 
     public StoreData storeData;
     public GamePlayData gamePlayData;
-   
 
-    public IEnumerator LoadData()
+    public void LoadData()
     {
-#if UNITY_ANDROID
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(storeJsonPath))
+        if (File.Exists(storeDataPath))
         {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
-
-            storeData = JsonUtility.FromJson<StoreData>(webRequest.downloadHandler.text);
-
-            if (webRequest.isNetworkError)
-            {
-                Debug.Log("Error");
-            }
-            else
-            {
-                Debug.Log("Loaded: " + webRequest.downloadHandler.text + "/n" + webRequest.downloadHandler.text);
-            }
+            storeData = JsonUtility.FromJson<StoreData>(File.ReadAllText(storeDataPath));
         }
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(gamePlayJsonPath))
+        else
         {
-            // Request and wait for the desired page.
-            yield return webRequest.SendWebRequest();
-
-            gamePlayData = JsonUtility.FromJson<GamePlayData>(webRequest.downloadHandler.text);
-
-            if (webRequest.isNetworkError)
-            {
-                Debug.Log("Error");
-            }
-            else
-            {
-                Debug.Log("Loaded: " + webRequest.downloadHandler.text + "/n" + webRequest.downloadHandler.text);
-            }
+            Debug.Log("Store Data Dosent Exist");
+        }
+        if (File.Exists(gameplayDataPath))
+        {
+            gamePlayData = JsonUtility.FromJson<GamePlayData>(File.ReadAllText(gameplayDataPath));
+        }
+        else
+        {
+            Debug.Log("Store Data Dosent Exist");
         }
 
-        /*
-        UnityWebRequest www = UnityWebRequest.Get(storeJsonPath);
-        yield return www.SendWebRequest();
-        storeData = JsonUtility.FromJson<StoreData>(www.downloadHandler.text);
-
-        UnityWebRequest www2 = UnityWebRequest.Get(gamePlayJsonPath);
-        yield return www2.SendWebRequest();
-        gamePlayData = JsonUtility.FromJson<GamePlayData>(www2.downloadHandler.text);
-        */
-#else
-        storeData = JsonUtility.FromJson<StoreData>(File.ReadAllText(storeJsonPath));
-        gamePlayData = JsonUtility.FromJson<GamePlayData>(File.ReadAllText(gamePlayJsonPath));
-#endif
     }
 
-    public IEnumerator SaveData()
+    public void SaveData()
     {
-#if UNITY_ANDROID
-        using (UnityWebRequest www = UnityWebRequest.Post(storeJsonPath, JsonUtility.ToJson(storeData)))
-        {
-            www.SetRequestHeader("Content-Type", "application/json");
-            yield return www.SendWebRequest();
-
-            //Debug.Log(storeJsonPath);
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Save complete!");
-            }
-        }
-        using (UnityWebRequest www = UnityWebRequest.Put(gamePlayJsonPath, JsonUtility.ToJson(gamePlayData)))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Save complete!");
-            }
-        }
-#else
-        File.WriteAllText(storeJsonPath, JsonUtility.ToJson(storeData));
-        File.WriteAllText(gamePlayJsonPath, JsonUtility.ToJson(gamePlayData));
-#endif
+        File.WriteAllText(storeDataPath, JsonUtility.ToJson(storeData));
+        File.WriteAllText(gameplayDataPath, JsonUtility.ToJson(gamePlayData));
     }
+
 }
 
 [System.Serializable]
