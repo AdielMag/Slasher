@@ -239,7 +239,7 @@ public class StoreManager : MonoBehaviour
 
     void LoadStoreData()
     {
-        jDataMan.LoadData();
+        StartCoroutine (jDataMan.LoadData());
 
         // Characters.
         for (int i = 0; i < charactersParent.childCount; i++)
@@ -298,6 +298,6 @@ public class StoreManager : MonoBehaviour
 
         jDataMan.storeData.Coins = coins;
 
-        jDataMan.SaveData();
+        StartCoroutine(jDataMan.SaveData());
     }
 }
