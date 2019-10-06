@@ -53,14 +53,14 @@ public class GameManager : MonoBehaviour
 #if !UNITY_EDITOR
         isTouching = Input.touchCount > 0 ? true : false;
 
-        Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : .2f, Time.fixedDeltaTime * 6);
+        // Time.timeScale = Mathf.Lerp(Time.timeScale, isTouching ? 1 : !playing ? 1 : .2f, Time.fixedDeltaTime * 6);
 
         touchIndiactor.SetBool("On", !playing ? false : isTouching ? false : true);
 #endif
         if (!playing)
             return;
 
-        timeLeft -= .001f;
+        timeLeft -= isTouching ? .001f : .0005f;
 
         timeLeftIndicator.value = timeLeft / newRunTime;
 

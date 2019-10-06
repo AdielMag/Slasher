@@ -78,8 +78,6 @@ public class StoreManager : MonoBehaviour
 
         GameManager.instance.inGameScoreIndicator.gameObject.SetActive(false);
         GameManager.instance.timeLeftIndicator.gameObject.SetActive(false);
-
-
     }
 
     IEnumerator CloseStoreDelayed()
@@ -251,7 +249,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.CharactersBought.Length; i++)
             charactersParent.GetChild(jDataMan.storeData.CharactersBought[i]).GetComponent<StoreItem>().bought = true;
         charactersParent.GetChild(jDataMan.storeData.EquippedCharacter).GetComponent<StoreItem>().equipped = true;
-
+        equippedCharacterItemNum = jDataMan.storeData.EquippedCharacter;
         // Weapons.
         for (int i = 0; i < weaponsParent.childCount; i++)
         {
@@ -261,9 +259,9 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
             weaponsParent.GetChild(jDataMan.storeData.WeaponsBought[i]).GetComponent<StoreItem>().bought = true;
         weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = true;
+        equippedWeaponItemNum = jDataMan.storeData.EquippedWeapon;
 
-         coins= jDataMan.storeData.Coins;
-
+        coins = jDataMan.storeData.Coins;
     }
 
     void SaveStoreData()

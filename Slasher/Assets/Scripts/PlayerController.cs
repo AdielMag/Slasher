@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public float horizontalMovementSpeed = 5, verticalMovementSpeed = 4;
+    float origVerMovSpeed,origHorizMovSpeed;
     public float floorWidth = 2.5f;
     public float movementHorizntal = .5f,rotationHorizontal;
     public float rotationForce = 6, rotationSpeed = 3;
@@ -35,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
         anim = GetComponent<Animator>();
         gMan = GameManager.instance;
+
+        origVerMovSpeed = verticalMovementSpeed;
+        origHorizMovSpeed = horizontalMovementSpeed;
 
         for(int i=0; i < slashes.Length; i++)
         {
@@ -76,9 +80,14 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
+        verticalMovementSpeed = Mathf.Lerp(verticalMovementSpeed, 
+            gMan.isTouching ? origVerMovSpeed : origVerMovSpeed * .6f, Time.deltaTime * 5);
+
         Vector3 targetPos = new Vector3(Mathf.Lerp(-floorWidth, floorWidth, movementHorizntal),
             transform.position.y, transform.position.z + verticalMovementSpeed);
 
+        horizontalMovementSpeed = Mathf.Lerp(verticalMovementSpeed,
+            gMan.isTouching ? origHorizMovSpeed : origHorizMovSpeed * .3f, Time.deltaTime * 5);
         transform.position = Vector3.Lerp(transform.position,targetPos, Time.deltaTime * horizontalMovementSpeed);
     }
 
