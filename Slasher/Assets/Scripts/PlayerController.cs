@@ -80,14 +80,12 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        verticalMovementSpeed = Mathf.Lerp(verticalMovementSpeed, 
-            gMan.isTouching ? origVerMovSpeed : origVerMovSpeed * .6f, Time.deltaTime * 5);
+        //verticalMovementSpeed = Mathf.Lerp(verticalMovementSpeed, gMan.isTouching ? origVerMovSpeed : origVerMovSpeed * .6f, Time.deltaTime * 5);
 
-        Vector3 targetPos = new Vector3(Mathf.Lerp(-floorWidth, floorWidth, movementHorizntal),
-            transform.position.y, transform.position.z + verticalMovementSpeed);
+        Vector3 targetPos = new Vector3(Mathf.Lerp(-floorWidth, floorWidth, movementHorizntal)
+            , transform.position.y, transform.position.z + verticalMovementSpeed);
 
-        horizontalMovementSpeed = Mathf.Lerp(verticalMovementSpeed,
-            gMan.isTouching ? origHorizMovSpeed : origHorizMovSpeed * .3f, Time.deltaTime * 5);
+        //horizontalMovementSpeed = Mathf.Lerp(horizontalMovementSpeed,gMan.isTouching ? origHorizMovSpeed : origHorizMovSpeed * .3f, Time.deltaTime * 5);
         transform.position = Vector3.Lerp(transform.position,targetPos, Time.deltaTime * horizontalMovementSpeed);
     }
 
@@ -103,10 +101,11 @@ public class PlayerController : MonoBehaviour
     Vector3 halfExtents = new Vector3(.7f, 1.3f, 2.4f);
     Transform targetObjective;
     int pointsMultiplier;
+    public LayerMask slashLayerMask;
     void ObjectiveIdentification()
     {
         if (Physics.BoxCast(transform.position + Vector3.up * 1.2f, halfExtents,
-            transform.forward, out RaycastHit hit, transform.rotation, 1.3f))
+            transform.forward, out RaycastHit hit, transform.rotation, 1.3f, slashLayerMask))
         {
             if (hit.transform.tag == "Obj" && hit.transform != targetObjective)
             {
@@ -126,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
         if (targetObjective)
         {
-            if (!Physics.Raycast(targetObjective.position, targetObjective.forward,out RaycastHit hit, 5f) || hit.transform.tag == "Undestructable")
+            if (!Physics.Raycast(targetObjective.position, targetObjective.forward,out RaycastHit hit, 5f,slashLayerMask) || hit.transform.tag == "Undestructable")
                 anim.SetBool("Slash", false);
 
             targetObjective.tag = "Untagged";
@@ -271,6 +270,6 @@ public class PlayerController : MonoBehaviour
             obj.gameObject.SetActive(false);
 
         weaponsParent.GetChild(JsonDataManager.instance.storeData.EquippedWeapon).gameObject.SetActive(true);
-
+        swordTrailNum = JsonDataManager.instance.storeData.EquippedWeapon;
     }
 }
