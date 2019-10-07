@@ -97,6 +97,7 @@ public class StoreManager : MonoBehaviour
         GameManager.instance.inGameScoreIndicator.gameObject.SetActive(true);
         GameManager.instance.timeLeftIndicator.gameObject.SetActive(true);
 
+        EquipItems();
     }
 
     public void NextItem()
@@ -199,13 +200,18 @@ public class StoreManager : MonoBehaviour
             if (currentItem.bought)
             {
                 currentItem.equipped = true;
-                if (weapons && weaponItemNum != equippedWeaponItemNum)
-                    weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
-                else if (charactersItemNum != equippedCharacterItemNum)
-                    charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
-
-
-                EquipItem();
+                if (weapons)
+                {
+                    if (weaponItemNum != equippedWeaponItemNum)
+                        weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
+                    equippedWeaponItemNum = weaponItemNum;
+                }
+                else
+                {
+                    if (charactersItemNum != equippedCharacterItemNum)
+                        charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
+                    equippedCharacterItemNum = charactersItemNum;
+                }
             }
             else
                 currentItem.bought = true;
@@ -216,24 +222,23 @@ public class StoreManager : MonoBehaviour
     }
 
     public Transform playerCharacters, playerWeapons;
-    public void EquipItem()
+    public void EquipItems()
     {
-        if (weapons)
-            playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(false);
+        // Disable all weapons and characters
+        Transform characterParent = playerCharacters;
+        for (int i = 0; i < characterParent.childCount - 1; i++)
+            characterParent.GetChild(i).gameObject.SetActive(false);
 
-        else
-            playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(false);
+        Transform weaponsParent = playerWeapons;
+        foreach (Transform obj in weaponsParent)
+            obj.gameObject.SetActive(false);
 
-        equippedCharacterItemNum = charactersItemNum;
-        equippedWeaponItemNum = weaponItemNum;
+        // Enable equipped weapon and trail
+        playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(true);
+        PlayerController.instance.swordTrailNum = equippedWeaponItemNum;
 
-        if (weapons)
-        {
-            playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(true);
-            PlayerController.instance.swordTrailNum = equippedWeaponItemNum;
-        }
-        else
-            playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(true);
+        // Enable equipped character
+        playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(true);
     }
 
     void LoadStoreData()
@@ -243,7 +248,8 @@ public class StoreManager : MonoBehaviour
         // Characters.
         for (int i = 0; i < charactersParent.childCount; i++)
         {
-            charactersParent.GetChild(i).GetComponent<StoreItem>().bought = false;
+            if(i != 0)
+                charactersParent.GetChild(i).GetComponent<StoreItem>().bought = false;
             charactersParent.GetChild(i).GetComponent<StoreItem>().equipped = false;
         }
         for (int i = 0; i < jDataMan.storeData.CharactersBought.Length; i++)
@@ -253,7 +259,8 @@ public class StoreManager : MonoBehaviour
         // Weapons.
         for (int i = 0; i < weaponsParent.childCount; i++)
         {
-            weaponsParent.GetChild(i).GetComponent<StoreItem>().bought = false;
+            if (i != 0)
+                weaponsParent.GetChild(i).GetComponent<StoreItem>().bought = false;
             weaponsParent.GetChild(i).GetComponent<StoreItem>().equipped = false;
         }
         for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
