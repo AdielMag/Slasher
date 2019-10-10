@@ -29,16 +29,18 @@ public class StoreManager : MonoBehaviour
     bool weapons = true;
 
     int weaponItemNum, charactersItemNum;
-    int equippedWeaponItemNum = 0, equippedCharacterItemNum = 0;
+   // [HideInInspector]
+   // public int equippedWeaponItemNum, equippedCharacterItemNum;
 
     JsonDataManager jDataMan;
     LoadingScreen loadScr;
+    PlayerController pCon;
     Animator anim;
     private void Start()
     {
         anim = GetComponent<Animator>();
         loadScr = LoadingScreen.instance;
-
+        pCon = PlayerController.instance;
         jDataMan = JsonDataManager.instance;
 
         objectDisplayer = myCamera.GetChild(2).GetComponent<Animator>();
@@ -97,7 +99,7 @@ public class StoreManager : MonoBehaviour
         GameManager.instance.inGameScoreIndicator.gameObject.SetActive(true);
         GameManager.instance.timeLeftIndicator.gameObject.SetActive(true);
 
-        EquipItems();
+        pCon.pItemsCon.EquipItems();
     }
 
     public void NextItem()
@@ -219,26 +221,6 @@ public class StoreManager : MonoBehaviour
         CheckItemConditions();
 
         coinsIndicator.text = coins.ToString();
-    }
-
-    public Transform playerCharacters, playerWeapons;
-    public void EquipItems()
-    {
-        // Disable all weapons and characters
-        Transform characterParent = playerCharacters;
-        for (int i = 0; i < characterParent.childCount - 1; i++)
-            characterParent.GetChild(i).gameObject.SetActive(false);
-
-        Transform weaponsParent = playerWeapons;
-        foreach (Transform obj in weaponsParent)
-            obj.gameObject.SetActive(false);
-
-        // Enable equipped weapon and trail
-        playerWeapons.GetChild(equippedWeaponItemNum).gameObject.SetActive(true);
-        PlayerController.instance.swordTrailNum = equippedWeaponItemNum;
-
-        // Enable equipped character
-        playerCharacters.GetChild(equippedCharacterItemNum).gameObject.SetActive(true);
     }
 
     void LoadStoreData()

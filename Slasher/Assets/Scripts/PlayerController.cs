@@ -14,20 +14,17 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     public float horizontalMovementSpeed = 5, verticalMovementSpeed = 4;
-    float origVerMovSpeed,origHorizMovSpeed;
+    float origVerMovSpeed, origHorizMovSpeed;
     public float floorWidth = 2.5f;
-    public float movementHorizntal = .5f,rotationHorizontal;
+    public float movementHorizntal = .5f, rotationHorizontal;
     public float rotationForce = 6, rotationSpeed = 3;
 
     int screenWidth;
 
-    public ParticleSystem[] swordTrails;
-    [HideInInspector]
-    public int swordTrailNum = 0;
-    public GameObject[] slashes;
-
     [HideInInspector]
     public Animator anim;
+    [HideInInspector]
+    public PlayerItemsController pItemsCon;
     GameManager gMan;
 
     void Start()
@@ -36,13 +33,14 @@ public class PlayerController : MonoBehaviour
 
         anim = GetComponent<Animator>();
         gMan = GameManager.instance;
+        pItemsCon = GetComponent<PlayerItemsController>();
 
         origVerMovSpeed = verticalMovementSpeed;
         origHorizMovSpeed = horizontalMovementSpeed;
 
-        for(int i=0; i < slashes.Length; i++)
+        for (int i = 0; i < pItemsCon.slashes.Length; i++)
         {
-            slashPlane[i] = slashes[i].transform.GetChild(0);
+            // slashPlane[i] = slashes[i].transform.GetChild(0);
         }
 
         LoadPlayerItems();
@@ -86,7 +84,7 @@ public class PlayerController : MonoBehaviour
             , transform.position.y, transform.position.z + verticalMovementSpeed);
 
         //horizontalMovementSpeed = Mathf.Lerp(horizontalMovementSpeed,gMan.isTouching ? origHorizMovSpeed : origHorizMovSpeed * .3f, Time.deltaTime * 5);
-        transform.position = Vector3.Lerp(transform.position,targetPos, Time.deltaTime * horizontalMovementSpeed);
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * horizontalMovementSpeed);
     }
 
     Vector3 targetRotation = Vector3.zero;
@@ -97,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(targetRotation);
     }
-  
+
     Vector3 halfExtents = new Vector3(.7f, 1.3f, 2.4f);
     Transform targetObjective;
     int pointsMultiplier;
@@ -119,17 +117,17 @@ public class PlayerController : MonoBehaviour
 
     public void Slash(int slashNum)
     {
-        swordTrails[swordTrailNum].Stop();
+        pItemsCon.currentSwordTrail.Stop();
 
-        slashes[slashNum - 1].SetActive(true);
+        pItemsCon.slashes[slashNum - 1].SetActive(true);
 
         if (targetObjective)
         {
-            if (!Physics.Raycast(targetObjective.position, targetObjective.forward,out RaycastHit hit, 5f,slashLayerMask) || hit.transform.tag == "Undestructable")
+            if (!Physics.Raycast(targetObjective.position, targetObjective.forward, out RaycastHit hit, 5f, slashLayerMask) || hit.transform.tag == "Undestructable")
                 anim.SetBool("Slash", false);
 
             targetObjective.tag = "Untagged";
-            StartCoroutine(DestroyObjective(slashNum,targetObjective.gameObject));
+            StartCoroutine(DestroyObjective(slashNum, targetObjective.gameObject));
         }
         else
             anim.SetBool("Slash", false);
@@ -156,14 +154,14 @@ public class PlayerController : MonoBehaviour
 
     public Material slashMaterial;
     Transform[] slashPlane = new Transform[4];
-    void Slice(int sliceNum,GameObject objectToSlice )
+    void Slice(int sliceNum, GameObject objectToSlice)
     {
         SlicedHull hull = objectToSlice.Slice(slashPlane[sliceNum - 1].position, slashPlane[sliceNum - 1].up);
 
         if (hull != null)
         {
-            GameObject firstHalf = hull.CreateLowerHull(objectToSlice,slashMaterial);
-            GameObject secondHalf = hull.CreateUpperHull(objectToSlice,slashMaterial);
+            GameObject firstHalf = hull.CreateLowerHull(objectToSlice, slashMaterial);
+            GameObject secondHalf = hull.CreateUpperHull(objectToSlice, slashMaterial);
 
             #region Rigidbody 
             Rigidbody firstHalfRb = firstHalf.AddComponent<Rigidbody>();
@@ -193,9 +191,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator StartSwordTrail()
     {
         yield return new WaitForSeconds(.25f);
-        swordTrails[swordTrailNum].Play();
+        pItemsCon.currentSwordTrail.Play();
     }
-    IEnumerator DestroyObjective(int slashNum,GameObject obj)
+    IEnumerator DestroyObjective(int slashNum, GameObject obj)
     {
         yield return new WaitForSeconds(.05f);
         Slice(slashNum, obj);
@@ -233,7 +231,7 @@ public class PlayerController : MonoBehaviour
     bool firstRun = true;
     public void ResetPlayer()
     {
-        swordTrails[swordTrailNum].Play();
+        pItemsCon.currentSwordTrail.Play();
 
         transform.position = Vector3.zero;
 
@@ -259,17 +257,6 @@ public class PlayerController : MonoBehaviour
     {
         JsonDataManager.instance.LoadData();
 
-        Transform characterParent = StoreManager.instance.playerCharacters;
-        for (int i = 0; i < characterParent.childCount - 1; i++)
-            characterParent.GetChild(i).gameObject.SetActive(false);
-
-        characterParent.GetChild(JsonDataManager.instance.storeData.EquippedCharacter).gameObject.SetActive(true);
-
-        Transform weaponsParent = StoreManager.instance.playerWeapons;
-        foreach (Transform obj in weaponsParent)
-            obj.gameObject.SetActive(false);
-
-        weaponsParent.GetChild(JsonDataManager.instance.storeData.EquippedWeapon).gameObject.SetActive(true);
-        swordTrailNum = JsonDataManager.instance.storeData.EquippedWeapon;
+        pItemsCon.EquipItems();
     }
 }
