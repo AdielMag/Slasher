@@ -99,7 +99,7 @@ public class StoreManager : MonoBehaviour
         GameManager.instance.inGameScoreIndicator.gameObject.SetActive(true);
         GameManager.instance.timeLeftIndicator.gameObject.SetActive(true);
 
-        pCon.pItemsCon.EquipItems();
+        StartCoroutine (pCon.pItemsCon.EquipItems());
     }
 
     public void NextItem()
@@ -204,15 +204,15 @@ public class StoreManager : MonoBehaviour
                 currentItem.equipped = true;
                 if (weapons)
                 {
-                    if (weaponItemNum != equippedWeaponItemNum)
-                        weaponsParent.GetChild(equippedWeaponItemNum).GetComponent<StoreItem>().equipped = false;
-                    equippedWeaponItemNum = weaponItemNum;
+                    if (weaponItemNum != jDataMan.storeData.EquippedWeapon)
+                        weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = false;
+                    jDataMan.storeData.EquippedWeapon = weaponItemNum;
                 }
                 else
                 {
-                    if (charactersItemNum != equippedCharacterItemNum)
-                        charactersParent.GetChild(equippedCharacterItemNum).GetComponent<StoreItem>().equipped = false;
-                    equippedCharacterItemNum = charactersItemNum;
+                    if (charactersItemNum != jDataMan.storeData.EquippedCharacter)
+                        charactersParent.GetChild(jDataMan.storeData.EquippedCharacter).GetComponent<StoreItem>().equipped = false;
+                    jDataMan.storeData.EquippedCharacter = charactersItemNum;
                 }
             }
             else
@@ -237,7 +237,6 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.CharactersBought.Length; i++)
             charactersParent.GetChild(jDataMan.storeData.CharactersBought[i]).GetComponent<StoreItem>().bought = true;
         charactersParent.GetChild(jDataMan.storeData.EquippedCharacter).GetComponent<StoreItem>().equipped = true;
-        equippedCharacterItemNum = jDataMan.storeData.EquippedCharacter;
         // Weapons.
         for (int i = 0; i < weaponsParent.childCount; i++)
         {
@@ -248,7 +247,6 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
             weaponsParent.GetChild(jDataMan.storeData.WeaponsBought[i]).GetComponent<StoreItem>().bought = true;
         weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = true;
-        equippedWeaponItemNum = jDataMan.storeData.EquippedWeapon;
 
         coins = jDataMan.storeData.Coins;
     }

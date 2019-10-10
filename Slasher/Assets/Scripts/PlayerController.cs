@@ -257,6 +257,6 @@ public class PlayerController : MonoBehaviour
     {
         JsonDataManager.instance.LoadData();
 
-        pItemsCon.EquipItems();
+        StartCoroutine (pItemsCon.EquipItems());
     }
 }

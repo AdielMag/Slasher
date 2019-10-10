@@ -12,19 +12,19 @@ public class PlayerItemsController : MonoBehaviour
 
     public GameObject[] slashes;
 
-    Animator anim;
-    PlayerController pCon;
     StoreManager sMan;
+    JsonDataManager jDataMan;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
-        pCon = PlayerController.instance;
         sMan = StoreManager.instance;
     }
 
-    public void EquipItems()
+    public IEnumerator EquipItems()
     {
+        PlayerController pCon = GetComponent<PlayerController>();
+        jDataMan = JsonDataManager.instance;
+
         // Destroy Character Object (player weapons destroyes with it)
         foreach (Transform obj in transform)
         {
@@ -33,9 +33,12 @@ public class PlayerItemsController : MonoBehaviour
         }
 
         // Enable equipped character
-        Instantiate(pCon.pItemsCon.characters[sMan.equippedCharacterItemNum], pCon.transform);
+        Instantiate(characters[jDataMan.storeData.EquippedCharacter], pCon.transform);
 
-        anim.Rebind();
+        yield return new WaitForEndOfFrame();
+
+        pCon.anim.Rebind();
+
         SetCurrentWeaponParent();
 
         // Disable all weapons in the current weapons parent
@@ -45,19 +48,15 @@ public class PlayerItemsController : MonoBehaviour
         }
 
         // Enable equipped weapon and trail
-        currentWeaponsParent.GetChild(sMan.equippedWeaponItemNum).gameObject.SetActive(true);
+        currentWeaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).gameObject.SetActive(true);
 
-        currentSwordTrail = currentWeaponsParent.GetChild(sMan.equippedWeaponItemNum)
+        currentSwordTrail = currentWeaponsParent.GetChild(jDataMan.storeData.EquippedWeapon)
             .GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
-
     }
 
     void SetCurrentWeaponParent()
     {
-        //Animator currentCharacterAnimator = StoreManager.instance.playerCharacters.
-        //    GetChild(JsonDataManager.instance.storeData.EquippedCharacter).GetComponent<Animator>();
-
-        Transform characterHand = anim.GetBoneTransform(HumanBodyBones.RightHand);
+        Transform characterHand = GetComponent<PlayerController>().anim.GetBoneTransform(HumanBodyBones.RightHand);
 
         GameObject obj = Instantiate(weaponsParentPrefab, characterHand);
 
