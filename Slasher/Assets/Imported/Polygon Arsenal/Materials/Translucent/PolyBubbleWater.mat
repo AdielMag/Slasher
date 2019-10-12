@@ -4,14 +4,13 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: PolyBubbleWater
   m_Shader: {fileID: 4800000, guid: f2cb1b80b68b95a489fadaa5754bca06, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -29,7 +28,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_CA637FD8: 9
-    - Vector1_D23434D2: 3
     - _InvFade: 3
     - _RimGlow: 2.91
     - _RimPower: 3.14
@@ -38,8 +36,6 @@ Material:
     m_Colors:
     - Color_1A0BCCE7: {r: 0, g: 2.8862746, b: 7.184314, a: 0}
     - Color_8EE4FC62: {r: 0, g: 0.062223904, b: 0.16037738, a: 0}
-    - Color_AD8B744C: {r: 0, g: 0.6396674, b: 0.9369776, a: 0}
-    - Color_B70EC491: {r: 0.4941176, g: 1.498039, b: 1.427451, a: 0}
     - _InnerColor: {r: 0.035142735, g: 0.085386604, b: 0.18382353, a: 1}
     - _RimColor: {r: 0.2794118, g: 0.6720082, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

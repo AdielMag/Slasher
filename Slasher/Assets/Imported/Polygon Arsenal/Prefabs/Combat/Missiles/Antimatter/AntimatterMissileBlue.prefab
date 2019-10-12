@@ -11,13 +11,10 @@ GameObject:
   - component: {fileID: 4153882756946008}
   - component: {fileID: 198810455590250322}
   - component: {fileID: 199536218943284730}
-  - component: {fileID: 114190031980261518}
-  - component: {fileID: -873019314068320991}
-  - component: {fileID: 4683534633663346381}
-  - component: {fileID: 142472916536270254}
-  m_Layer: 9
+  - component: {fileID: -513507944731337945}
+  m_Layer: 0
   m_Name: AntimatterMissileBlue
-  m_TagString: Undestructable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080310931315740}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 2.449339, y: 0.418, z: -0.8175467}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4898555648974232}
   - {fileID: 4680795625378308}
@@ -40,7 +37,7 @@ Transform:
   - {fileID: 4117477592831186}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &198810455590250322
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4828,37 +4825,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &114190031980261518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080310931315740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa5c1e37409a9344a344c0468db383d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabSound: {fileID: 1297775994297274, guid: 19e3728972664534ca6b822384d2e965,
-    type: 3}
-  destroyWhenDone: 1
-  soundPrefabIsChild: 1
-  pitchRandomMultiplier: 1.1
---- !u!114 &-873019314068320991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080310931315740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad6c9dc5f010bbb47a2b3dbbab717c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 5
---- !u!54 &4683534633663346381
+--- !u!54 &-513507944731337945
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4874,19 +4841,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &142472916536270254
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080310931315740}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.17
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1433744644628968
 GameObject:
   m_ObjectHideFlags: 0
@@ -4898,7 +4852,7 @@ GameObject:
   - component: {fileID: 4898555648974232}
   - component: {fileID: 198679052018571424}
   - component: {fileID: 199193578676412000}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SphereGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9717,7 +9671,7 @@ GameObject:
   - component: {fileID: 4680795625378308}
   - component: {fileID: 198401105192168596}
   - component: {fileID: 199324108198980006}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14545,7 +14499,7 @@ GameObject:
   - component: {fileID: 4117477592831186}
   - component: {fileID: 198123197668032918}
   - component: {fileID: 199400289360357034}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ArcTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19409,7 +19363,7 @@ GameObject:
   - component: {fileID: 4429515875592228}
   - component: {fileID: 198736387626353372}
   - component: {fileID: 199079218070990400}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24273,7 +24227,7 @@ GameObject:
   - component: {fileID: 4476265477862982}
   - component: {fileID: 198904008028798434}
   - component: {fileID: 199107626251684674}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: NoiseTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
