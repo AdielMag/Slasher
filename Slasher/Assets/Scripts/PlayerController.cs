@@ -156,7 +156,8 @@ public class PlayerController : MonoBehaviour
     Transform[] slashPlane = new Transform[4];
     void Slice(int sliceNum, GameObject objectToSlice)
     {
-        SlicedHull hull = objectToSlice.Slice(slashPlane[sliceNum - 1].position, slashPlane[sliceNum - 1].up);
+        SlicedHull hull = objectToSlice.Slice(pItemsCon.slashes[sliceNum - 1].transform.GetChild(0).position,
+            pItemsCon.slashes[sliceNum - 1].transform.GetChild(0).up);
 
         if (hull != null)
         {
