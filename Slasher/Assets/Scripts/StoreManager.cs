@@ -46,9 +46,8 @@ public class StoreManager : MonoBehaviour
         objectDisplayer = myCamera.GetChild(2).GetComponent<Animator>();
         origRot = myCamera.rotation;
 
-        weaponsParent = objectDisplayer.transform.GetChild(2);
-        charactersParent = objectDisplayer.transform.GetChild(3);
-
+        weaponsParent = objectDisplayer.transform.GetChild(0).GetChild(0).GetChild(0);
+        charactersParent = objectDisplayer.transform.GetChild(1);
     }
 
     public void OpenStore()

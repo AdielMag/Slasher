@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: PolyBlackHoleOuterLayer
   m_Shader: {fileID: 4800000, guid: f2cb1b80b68b95a489fadaa5754bca06, type: 3}
   m_ShaderKeywords: 
@@ -28,6 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_CA637FD8: 10
+    - Vector1_D23434D2: 10
     - _InvFade: 3
     - _RimGlow: 1.82
     - _RimPower: 3.14
@@ -36,6 +38,8 @@ Material:
     m_Colors:
     - Color_1A0BCCE7: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 0}
     - Color_8EE4FC62: {r: 0, g: 0, b: 0, a: 0}
+    - Color_AD8B744C: {r: 0.9372549, g: 0.37993032, b: 0, a: 0}
+    - Color_B70EC491: {r: 1.4980391, g: 1.4846293, b: 0.49411762, a: 0}
     - _InnerColor: {r: 0.11764705, g: 0.11764705, b: 0.11764705, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
