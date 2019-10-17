@@ -1,8 +1,5 @@
 ﻿using System.IO;
-using System.Collections;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine.Networking;
 
 public class JsonDataManager : MonoBehaviour
 {

@@ -148,17 +148,20 @@ public class StoreManager : MonoBehaviour
 
     public void OpenMenu(string menuType)
     {
-        if (menuType == "Weapons")
+        if (objectDisplayer.isActiveAndEnabled)
         {
-            weapons = true;
-            objectDisplayer.SetBool("Weapons", true);
-            objectDisplayer.SetBool("Characters", false);
-        }
-        else
-        {
-            weapons = false;
-            objectDisplayer.SetBool("Weapons", false);
-            objectDisplayer.SetBool("Characters", true);
+            if (menuType == "Weapons")
+            {
+                weapons = true;
+                objectDisplayer.SetBool("Weapons", true);
+                objectDisplayer.SetBool("Characters", false);
+            }
+            else
+            {
+                weapons = false;
+                objectDisplayer.SetBool("Weapons", false);
+                objectDisplayer.SetBool("Characters", true);
+            }
         }
         CheckItemConditions();
     }
@@ -236,6 +239,7 @@ public class StoreManager : MonoBehaviour
         for (int i = 0; i < jDataMan.storeData.CharactersBought.Length; i++)
             charactersParent.GetChild(jDataMan.storeData.CharactersBought[i]).GetComponent<StoreItem>().bought = true;
         charactersParent.GetChild(jDataMan.storeData.EquippedCharacter).GetComponent<StoreItem>().equipped = true;
+
         // Weapons.
         for (int i = 0; i < weaponsParent.childCount; i++)
         {
@@ -243,11 +247,16 @@ public class StoreManager : MonoBehaviour
                 weaponsParent.GetChild(i).GetComponent<StoreItem>().bought = false;
             weaponsParent.GetChild(i).GetComponent<StoreItem>().equipped = false;
         }
+
         for (int i = 0; i < jDataMan.storeData.WeaponsBought.Length; i++)
+        {
+
             weaponsParent.GetChild(jDataMan.storeData.WeaponsBought[i]).GetComponent<StoreItem>().bought = true;
+        }
         weaponsParent.GetChild(jDataMan.storeData.EquippedWeapon).GetComponent<StoreItem>().equipped = true;
 
         coins = jDataMan.storeData.Coins;
+
     }
 
     void SaveStoreData()
