@@ -2457,7 +2457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &250105831
 Transform:
   m_ObjectHideFlags: 0
@@ -25098,6 +25098,81 @@ PrefabInstance:
     - target: {fileID: 756123656375997884, guid: d6e9032757d947f42ac48cb74e1c01b2,
         type: 3}
       propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948728635580841135, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861944428477331979, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365795842240601723, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 846908774424569890, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945190212458431679, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764126944272601200, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912604939343985788, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687349529509447657, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118154278498889874, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775154814442939232, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314032037292184633, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7325992135063779747, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945366611601168881, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1256014031932391242, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738255391588301331, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -51163,7 +51238,7 @@ Light:
   serializedVersion: 9
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 4.2
+  m_Intensity: 6.4
   m_Range: 21.17
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -53577,6 +53652,81 @@ PrefabInstance:
     - target: {fileID: 1153291113974393411, guid: d6e9032757d947f42ac48cb74e1c01b2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948728635580841135, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6861944428477331979, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8365795842240601723, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 846908774424569890, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945190212458431679, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764126944272601200, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912604939343985788, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687349529509447657, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118154278498889874, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775154814442939232, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314032037292184633, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7325992135063779747, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945366611601168881, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1256014031932391242, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738255391588301331, guid: d6e9032757d947f42ac48cb74e1c01b2,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -58654,7 +58804,7 @@ Light:
   serializedVersion: 9
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5.57
+  m_Intensity: 12.16
   m_Range: 23.1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
