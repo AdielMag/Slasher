@@ -193,6 +193,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(.25f);
         pItemsCon.currentSwordTrail.Play();
+
     }
     IEnumerator DestroyObjective(int slashNum, GameObject obj)
     {
